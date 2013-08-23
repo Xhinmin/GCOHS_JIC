@@ -19,10 +19,12 @@ public class PickObject : MonoBehaviour
     public MouseType mouseType;
 
     private float clickTime;
+
+    public float clickTime_threshold;
     // Use this for initialization
     void Start()
     {
-
+        mouseType = MouseType.放開;
     }
 
     // Update is called once per frame
@@ -48,28 +50,12 @@ public class PickObject : MonoBehaviour
     /// </summary>
     private void ProcessMouseState()
     {
-        if (Input.GetKey(KeyCode.Mouse0))
-        {
-            mouseType = MouseType.點擊;
-        }
-        else
-        {
-            clickTime = 0;
-            mouseType = MouseType.放開;
-        }
 
 
         if (mouseType == MouseType.點擊)
         {
-            iTween.ValueTo(this.Target.gameObject, iTween.Hash(
-"from", 0,
-"to", 255,
-"time", 1,
-"onupdate", "changeMotionBlur"
-));
-
             clickTime += Time.deltaTime;
-            if (clickTime > 0.5F)
+            if (clickTime > clickTime_threshold)
             {
                 mouseType = MouseType.拖曳中;
                 if (Target) print(Target.transform.name + " 已被選取");
@@ -81,19 +67,30 @@ public class PickObject : MonoBehaviour
             if (Target)
                 Target.transform.position = new Vector3(this.camera.ScreenToWorldPoint(Input.mousePosition).x,
                     this.camera.ScreenToWorldPoint(Input.mousePosition).y, Target.transform.position.z);
+
+            if (!Input.GetKey(KeyCode.Mouse0))
+            {
+                mouseType = MouseType.放開;
+            }
         }
 
         if (mouseType == MouseType.放開)
         {
             this.Target = this.hit.transform.gameObject;
+            clickTime = 0;
 
-
+            if (Input.GetKey(KeyCode.Mouse0))
+            {
+                mouseType = MouseType.點擊;
+            }
         }
 
     }
 
-    void changeMotionBlur(float newValue)
+    void changePictureAlpha(float newValue)
     {
-        Target.GetComponent<SmoothMoves.Sprite>().color.a = newValue;
+        print(newValue);
+        if (Target)
+            Target.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, newValue));
     }
 }
