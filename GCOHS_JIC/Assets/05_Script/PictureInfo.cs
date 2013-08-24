@@ -6,6 +6,8 @@ using System.Collections;
 /// </summary>
 public class PictureInfo : MonoBehaviour
 {
+    public PictureType Type;
+
     public float MixScale;
     public float MaxScale;
 
@@ -33,5 +35,10 @@ public class PictureInfo : MonoBehaviour
     {
         this.transform.position = this.originPosition;
         this.transform.localScale = this.originScale;
+    }
+
+    public enum PictureType
+    {
+        馬樹 = 0, 土坡 = 1
     }
 }

@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager script;
 
-    public RectArea ReleaseArea;
+    public List<RectArea> 馬樹放置範圍清單;
+    public RectArea 土坡放置範圍;
 
     public Transform scaleLineTop;
     public Transform scaleLineBottom;
@@ -22,24 +24,43 @@ public class GameManager : MonoBehaviour
 
     }
 
-    
+
 
     void OnDrawGizmos()
     {
-        if (this.ReleaseArea.左上 != null && this.ReleaseArea.右下 != null)
+        foreach (var area in this.馬樹放置範圍清單)
+        {
+            if (area.左上 != null && area.右下 != null)
+            {
+                //顯示左上、右下兩點
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawSphere(area.左上.position, 10);
+                Gizmos.DrawSphere(area.右下.position, 10);
+
+                //劃出邊界
+                Gizmos.color = Color.red;
+                Gizmos.DrawRay(area.左上.position, Vector3.right * Mathf.Abs(area.左上.position.x - area.右下.position.x));
+                Gizmos.DrawRay(area.右下.position, Vector3.left * Mathf.Abs(area.左上.position.x - area.右下.position.x));
+                Gizmos.DrawRay(area.左上.position, Vector3.down * Mathf.Abs(area.左上.position.y - area.右下.position.y));
+                Gizmos.DrawRay(area.右下.position, Vector3.up * Mathf.Abs(area.左上.position.y - area.右下.position.y));
+            }
+        }
+
+        if (土坡放置範圍.左上 != null && 土坡放置範圍.右下 != null)
         {
             //顯示左上、右下兩點
             Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(this.ReleaseArea.左上.position, 10);
-            Gizmos.DrawSphere(this.ReleaseArea.右下.position, 10);
+            Gizmos.DrawSphere(土坡放置範圍.左上.position, 10);
+            Gizmos.DrawSphere(土坡放置範圍.右下.position, 10);
 
             //劃出邊界
-            Gizmos.color = Color.red; ;
-            Gizmos.DrawRay(this.ReleaseArea.左上.position, Vector3.right * Mathf.Abs(this.ReleaseArea.左上.position.x - this.ReleaseArea.右下.position.x));
-            Gizmos.DrawRay(this.ReleaseArea.右下.position, Vector3.left * Mathf.Abs(this.ReleaseArea.左上.position.x - this.ReleaseArea.右下.position.x));
-            Gizmos.DrawRay(this.ReleaseArea.左上.position, Vector3.down * Mathf.Abs(this.ReleaseArea.左上.position.y - this.ReleaseArea.右下.position.y));
-            Gizmos.DrawRay(this.ReleaseArea.右下.position, Vector3.up * Mathf.Abs(this.ReleaseArea.左上.position.y - this.ReleaseArea.右下.position.y));
+            Gizmos.color = Color.blue;
+            Gizmos.DrawRay(土坡放置範圍.左上.position, Vector3.right * Mathf.Abs(土坡放置範圍.左上.position.x - 土坡放置範圍.右下.position.x));
+            Gizmos.DrawRay(土坡放置範圍.右下.position, Vector3.left * Mathf.Abs(土坡放置範圍.左上.position.x - 土坡放置範圍.右下.position.x));
+            Gizmos.DrawRay(土坡放置範圍.左上.position, Vector3.down * Mathf.Abs(土坡放置範圍.左上.position.y - 土坡放置範圍.右下.position.y));
+            Gizmos.DrawRay(土坡放置範圍.右下.position, Vector3.up * Mathf.Abs(土坡放置範圍.左上.position.y - 土坡放置範圍.右下.position.y));
         }
+
 
         if (this.scaleLineTop != null && this.scaleLineBottom != null)
         {

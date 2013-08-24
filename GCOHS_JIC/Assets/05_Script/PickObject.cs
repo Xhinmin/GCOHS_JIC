@@ -15,13 +15,15 @@ public class PickObject : MonoBehaviour
     private RaycastHit hit;
 
     private MouseType mouseType;
+    private PictureInfo.PictureType currentPictureType;
 
     //按下累積時間
     private float clickTime;
     //按下累積時間門檻
     public float clickTime_threshold;
 
-    public GameObject HintAreaObject;
+    public GameObject 馬樹範圍提示物件;
+    public GameObject 土坡範圍提示物件;
 
     // Use this for initialization
     void Start()
@@ -44,10 +46,37 @@ public class PickObject : MonoBehaviour
             if (Target)
             {
                 this.Target.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 1));
-                this.HintAreaObject.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0));
 
-                if (!GameManager.script.ReleaseArea.isContainArea(this.Target.transform.position))
+                if (this.currentPictureType == PictureInfo.PictureType.馬樹)
+                    this.馬樹範圍提示物件.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0));
+
+                else if (this.currentPictureType == PictureInfo.PictureType.土坡)
+                    this.土坡範圍提示物件.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0));
+
+
+                bool isContain = false;
+
+                if (this.currentPictureType == PictureInfo.PictureType.馬樹)
+                {
+
+                    foreach (var area in GameManager.script.馬樹放置範圍清單)
+                    {
+                        if (area.isContainArea(this.Target.transform.position))
+                        {
+                            isContain = true;
+                            break;
+                        }
+                    }
+                }
+                else if (this.currentPictureType == PictureInfo.PictureType.土坡)
+                {
+                    if (GameManager.script.土坡放置範圍.isContainArea(this.Target.transform.position))
+                        isContain = true;
+                }
+
+                if (!isContain)
                     this.Target.GetComponent<PictureInfo>().BacktoOriginPosition();
+
             }
 
             this.Target = null;
@@ -82,6 +111,8 @@ public class PickObject : MonoBehaviour
                        "time", 1
                        ));
 
+                this.currentPictureType = this.Target.GetComponent<PictureInfo>().Type;
+
                 if (this.Target)
                     print(this.Target.transform.name + " 已被選取");
             }
@@ -91,12 +122,19 @@ public class PickObject : MonoBehaviour
         {
             if (this.Target)
             {
-                //將中心點修正
-                float offsetY = this.Target.GetComponent<SmoothMoves.Sprite>().size.y * this.Target.transform.localScale.y * 0.5f;
+                if (this.currentPictureType == PictureInfo.PictureType.馬樹)
+                {
+                    //將中心點修正
+                    float offsetY = this.Target.GetComponent<SmoothMoves.Sprite>().size.y * this.Target.transform.localScale.y * 0.5f;
 
-                this.Target.transform.position = new Vector3(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition).x,
-                    this.ViewCamera.ScreenToWorldPoint(Input.mousePosition).y - offsetY, this.Target.transform.position.z);
-
+                    this.Target.transform.position = new Vector3(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition).x,
+                        this.ViewCamera.ScreenToWorldPoint(Input.mousePosition).y - offsetY, this.Target.transform.position.z);
+                }
+                else if (this.currentPictureType == PictureInfo.PictureType.土坡)
+                {
+                    this.Target.transform.position = new Vector3(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition).x,
+                        this.ViewCamera.ScreenToWorldPoint(Input.mousePosition).y, this.Target.transform.position.z);
+                }
                 this.Target.GetComponent<PictureInfo>().ChangeScale();
             }
 
@@ -114,9 +152,33 @@ public class PickObject : MonoBehaviour
 
             iTween.StopByName("PickObject");
             this.Target.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 1));
-            this.HintAreaObject.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0));
+            if (this.currentPictureType == PictureInfo.PictureType.馬樹)
+                this.馬樹範圍提示物件.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0));
 
-            if (!GameManager.script.ReleaseArea.isContainArea(this.Target.transform.position))
+            else if (this.currentPictureType == PictureInfo.PictureType.土坡)
+                this.土坡範圍提示物件.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0));
+
+            bool isContain = false;
+
+            if (this.currentPictureType == PictureInfo.PictureType.馬樹)
+            {
+
+                foreach (var area in GameManager.script.馬樹放置範圍清單)
+                {
+                    if (area.isContainArea(this.Target.transform.position))
+                    {
+                        isContain = true;
+                        break;
+                    }
+                }
+            }
+            else if (this.currentPictureType == PictureInfo.PictureType.土坡)
+            {
+                if (GameManager.script.土坡放置範圍.isContainArea(this.Target.transform.position))
+                    isContain = true;
+            }
+
+            if (!isContain)
                 this.Target.GetComponent<PictureInfo>().BacktoOriginPosition();
 
             this.clickTime = 0;
@@ -133,7 +195,12 @@ public class PickObject : MonoBehaviour
         if (this.Target)
         {
             this.Target.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, newValue));
-            this.HintAreaObject.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0.9f - newValue));
+
+            if (this.currentPictureType == PictureInfo.PictureType.馬樹)
+                this.馬樹範圍提示物件.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0.9f - newValue));
+
+            else if (this.currentPictureType == PictureInfo.PictureType.土坡)
+                this.土坡範圍提示物件.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0.9f - newValue));
         }
     }
 
