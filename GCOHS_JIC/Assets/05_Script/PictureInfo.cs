@@ -7,14 +7,18 @@ using System.Collections;
 public class PictureInfo : MonoBehaviour
 {
     public PictureType Type;
+    public bool CanMove;
 
     public float MixScale;
     public float MaxScale;
 
+    public float MixDepth;
+    public float MaxDepth;
+
     private Vector3 originPosition;
     private Vector3 originScale;
 
-    public void ChangeScale()
+    public void ChangeScaleDepth()
     {
         if (this.transform.position.x < GameManager.script.scaleLineTop.position.x)
             return;
@@ -22,7 +26,9 @@ public class PictureInfo : MonoBehaviour
         float value = Mathf.Clamp(this.transform.position.y, GameManager.script.scaleLineBottom.position.y, GameManager.script.scaleLineTop.position.y);
         float scale = Mathf.Abs(value - GameManager.script.scaleLineTop.position.y) / Mathf.Abs(GameManager.script.scaleLineBottom.position.y - GameManager.script.scaleLineTop.position.y);
         float pictureScale = Mathf.Lerp(this.MixScale, this.MaxScale, scale);
+        float pictureDepth = Mathf.Lerp(this.MixDepth, this.MaxDepth, 1 - scale);
         this.transform.localScale = new Vector3(pictureScale, pictureScale);
+        this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, pictureDepth);
     }
 
     void Start()
@@ -39,6 +45,6 @@ public class PictureInfo : MonoBehaviour
 
     public enum PictureType
     {
-        馬樹 = 0, 土坡 = 1
+        未定義 = 0, 馬樹 = 1, 土坡 = 2
     }
 }

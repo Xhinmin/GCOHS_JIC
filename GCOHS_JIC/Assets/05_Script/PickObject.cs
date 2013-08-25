@@ -8,13 +8,15 @@ using System.Collections;
 public class PickObject : MonoBehaviour
 {
     public Camera ViewCamera;
+
     public LayerMask TargetLayer;
+
+    public GameObject 馬樹範圍提示物件;
+    public GameObject 土坡範圍提示物件;
 
     private GameObject Target;
 
-    private RaycastHit hit;
-
-    private MouseType mouseType;
+    private MouseType currentMouseType;
     private PictureInfo.PictureType currentPictureType;
 
     //按下累積時間
@@ -22,106 +24,104 @@ public class PickObject : MonoBehaviour
     //按下累積時間門檻
     public float clickTime_threshold;
 
-    public GameObject 馬樹範圍提示物件;
-    public GameObject 土坡範圍提示物件;
-
-    // Use this for initialization
-    void Start()
-    {
-
-    }
+    private RaycastHit hit;
 
     // Update is called once per frame
     void Update()
     {
-        if (Physics.Raycast(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition), new Vector3(0, 0, 1), out this.hit, 100, this.TargetLayer) == true)
-        {
+        if (Physics.Raycast(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition), new Vector3(0, 0, 1), out this.hit, 100, this.TargetLayer))
             this.ProcessMouseState();
-        }
+
         else
         {
             //當超出範圍時(例如滑鼠移動太快，圖片沒跟到的時候) 要把圖片ALPHA調回１
-            this.mouseType = MouseType.放開;
-            iTween.StopByName("PickObject");
-            if (Target)
+            if (this.currentMouseType == MouseType.拖曳中)
             {
-                this.Target.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 1));
-
-                if (this.currentPictureType == PictureInfo.PictureType.馬樹)
-                    this.馬樹範圍提示物件.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0));
-
-                else if (this.currentPictureType == PictureInfo.PictureType.土坡)
-                    this.土坡範圍提示物件.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0));
-
-
-                bool isContain = false;
-
-                if (this.currentPictureType == PictureInfo.PictureType.馬樹)
+                iTween.StopByName("PickObject");
+                if (Target)
                 {
+                    this.Target.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 1));
 
-                    foreach (var area in GameManager.script.馬樹放置範圍清單)
+                    if (this.currentPictureType == PictureInfo.PictureType.馬樹)
+                        this.馬樹範圍提示物件.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0));
+
+                    else if (this.currentPictureType == PictureInfo.PictureType.土坡)
+                        this.土坡範圍提示物件.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0));
+
+                    bool isContain = false;
+                    if (this.currentPictureType == PictureInfo.PictureType.馬樹)
                     {
-                        if (area.isContainArea(this.Target.transform.position))
+                        foreach (var area in GameManager.script.馬樹放置範圍清單)
                         {
-                            isContain = true;
-                            break;
+                            if (area.isContainArea(this.Target.transform.position))
+                            {
+                                isContain = true;
+                                break;
+                            }
                         }
                     }
-                }
-                else if (this.currentPictureType == PictureInfo.PictureType.土坡)
-                {
-                    if (GameManager.script.土坡放置範圍.isContainArea(this.Target.transform.position))
-                        isContain = true;
-                }
+                    else if (this.currentPictureType == PictureInfo.PictureType.土坡)
+                    {
+                        if (GameManager.script.土坡放置範圍.isContainArea(this.Target.transform.position))
+                        {
+                            isContain = true;
+                            this.Target.GetComponent<PictureInfo>().CanMove = false;
+                            this.Target.transform.localPosition = new Vector3(0, 0, this.Target.GetComponent<PictureInfo>().MaxDepth);
+                        }
+                    }
 
-                if (!isContain)
-                    this.Target.GetComponent<PictureInfo>().BacktoOriginPosition();
+                    if (!isContain)
+                        this.Target.GetComponent<PictureInfo>().BacktoOriginPosition();
 
+                    this.currentPictureType = PictureInfo.PictureType.未定義;
+                    this.currentMouseType = MouseType.無狀態;
+                }
             }
-
             this.Target = null;
         }
     }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.DrawRay(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition), new Vector3(0, 0, 1) * 100);
-    }
-
 
     /// <summary>
     /// 處理滑鼠狀態
     /// </summary>
     private void ProcessMouseState()
     {
-        // 狀態:點擊 滑鼠按下時間>門檻時 改變狀態為拖曳
-        if (this.mouseType == MouseType.點擊)
+        switch (this.currentMouseType)
         {
-            this.clickTime += Time.deltaTime;
-            if (this.clickTime > this.clickTime_threshold)
-            {
-                this.mouseType = MouseType.拖曳中;
+            case MouseType.無狀態:
+                if (Input.GetKey(KeyCode.Mouse0))
+                    this.currentMouseType = MouseType.點擊;
+                break;
 
-                iTween.ValueTo(this.gameObject, iTween.Hash(
-                       "name", "PickObject",
-                       "from", 1,
-                       "to", 0.45F,
-                       "onupdate", "changePictureAlpha",
-                       "loopType", "pingPong",
-                       "time", 1
-                       ));
+            case MouseType.點擊:
+                this.clickTime += Time.deltaTime;
+                if (this.clickTime > this.clickTime_threshold)
+                {
+                    this.Target = this.hit.transform.gameObject;
+                    this.clickTime = 0;
 
-                this.currentPictureType = this.Target.GetComponent<PictureInfo>().Type;
+                    if (!this.Target.GetComponent<PictureInfo>().CanMove)
+                    {
+                        this.currentMouseType = MouseType.無狀態;
+                        return;
+                    }
 
-                if (this.Target)
-                    print(this.Target.transform.name + " 已被選取");
-            }
-        }
-        //狀態：拖曳　改變XY座標　當滑鼠放開時　狀態：放開
-        if (this.mouseType == MouseType.拖曳中)
-        {
-            if (this.Target)
-            {
+                    iTween.ValueTo(this.gameObject, iTween.Hash(
+                           "name", "PickObject",
+                           "from", 1,
+                           "to", 0.45F,
+                           "onupdate", "changePictureAlpha",
+                           "loopType", "pingPong",
+                           "time", 1
+                           ));
+
+                    this.currentPictureType = this.Target.GetComponent<PictureInfo>().Type;
+                    this.currentMouseType = MouseType.拖曳中;
+                }
+
+                break;
+
+            case MouseType.拖曳中:
                 if (this.currentPictureType == PictureInfo.PictureType.馬樹)
                 {
                     //將中心點修正
@@ -135,58 +135,53 @@ public class PickObject : MonoBehaviour
                     this.Target.transform.position = new Vector3(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition).x,
                         this.ViewCamera.ScreenToWorldPoint(Input.mousePosition).y, this.Target.transform.position.z);
                 }
-                this.Target.GetComponent<PictureInfo>().ChangeScale();
-            }
 
+                this.Target.GetComponent<PictureInfo>().ChangeScaleDepth();
 
-            if (!Input.GetKey(KeyCode.Mouse0))
-            {
-                this.mouseType = MouseType.放開;
-            }
-        }
+                if (!Input.GetKey(KeyCode.Mouse0))
+                    this.currentMouseType = MouseType.放開;
 
-        //狀態：放開　當滑鼠點擊時　狀態：點擊
-        if (mouseType == MouseType.放開)
-        {
-            this.Target = this.hit.transform.gameObject;
+                break;
 
-            iTween.StopByName("PickObject");
-            this.Target.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 1));
-            if (this.currentPictureType == PictureInfo.PictureType.馬樹)
-                this.馬樹範圍提示物件.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0));
+            case MouseType.放開:
+                iTween.StopByName("PickObject");
 
-            else if (this.currentPictureType == PictureInfo.PictureType.土坡)
-                this.土坡範圍提示物件.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0));
+                this.Target.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 1));
 
-            bool isContain = false;
+                if (this.currentPictureType == PictureInfo.PictureType.馬樹)
+                    this.馬樹範圍提示物件.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0));
+                else if (this.currentPictureType == PictureInfo.PictureType.土坡)
+                    this.土坡範圍提示物件.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0));
 
-            if (this.currentPictureType == PictureInfo.PictureType.馬樹)
-            {
-
-                foreach (var area in GameManager.script.馬樹放置範圍清單)
+                bool isContain = false;
+                if (this.currentPictureType == PictureInfo.PictureType.馬樹)
                 {
-                    if (area.isContainArea(this.Target.transform.position))
+                    foreach (var area in GameManager.script.馬樹放置範圍清單)
                     {
-                        isContain = true;
-                        break;
+                        if (area.isContainArea(this.Target.transform.position))
+                        {
+                            isContain = true;
+                            break;
+                        }
                     }
                 }
-            }
-            else if (this.currentPictureType == PictureInfo.PictureType.土坡)
-            {
-                if (GameManager.script.土坡放置範圍.isContainArea(this.Target.transform.position))
-                    isContain = true;
-            }
+                else if (this.currentPictureType == PictureInfo.PictureType.土坡)
+                {
+                    if (GameManager.script.土坡放置範圍.isContainArea(this.Target.transform.position))
+                    {
+                        isContain = true;
+                        this.Target.GetComponent<PictureInfo>().CanMove = false;
+                        this.Target.transform.localPosition = new Vector3(0, 0, this.Target.GetComponent<PictureInfo>().MaxDepth);
+                    }
+                }
 
-            if (!isContain)
-                this.Target.GetComponent<PictureInfo>().BacktoOriginPosition();
+                if (!isContain & this.currentPictureType != PictureInfo.PictureType.未定義)
+                    this.Target.GetComponent<PictureInfo>().BacktoOriginPosition();
 
-            this.clickTime = 0;
+                this.currentPictureType = PictureInfo.PictureType.未定義;
+                this.currentMouseType = MouseType.無狀態;
 
-            if (Input.GetKey(KeyCode.Mouse0))
-            {
-                this.mouseType = MouseType.點擊;
-            }
+                break;
         }
     }
 
@@ -204,9 +199,14 @@ public class PickObject : MonoBehaviour
         }
     }
 
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawRay(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition), new Vector3(0, 0, 1) * 100);
+    }
+
     //定義滑鼠狀態
     public enum MouseType
     {
-        點擊 = 0, 拖曳中 = 1, 放開 = 2
+        無狀態 = 0, 點擊 = 1, 拖曳中 = 2, 放開 = 3
     }
 }
