@@ -8,6 +8,7 @@ public class PictureInfo : MonoBehaviour
 {
     public PictureType Type;
     public bool CanMove;
+    public bool isUsed;
 
     public float MixScale;
     public float MaxScale;
@@ -33,6 +34,7 @@ public class PictureInfo : MonoBehaviour
 
     void Start()
     {
+        this.isUsed = false;
         this.originPosition = this.transform.position;
         this.originScale = this.transform.localScale;
     }
@@ -41,6 +43,7 @@ public class PictureInfo : MonoBehaviour
     {
         this.transform.position = this.originPosition;
         this.transform.localScale = this.originScale;
+        this.isUsed = false;
     }
 
     public enum PictureType

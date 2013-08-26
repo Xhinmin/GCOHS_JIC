@@ -56,6 +56,7 @@ public class PickObject : MonoBehaviour
                             if (area.isContainArea(this.Target.transform.position))
                             {
                                 isContain = true;
+                                this.Target.GetComponent<PictureInfo>().isUsed = true;
                                 break;
                             }
                         }
@@ -65,8 +66,12 @@ public class PickObject : MonoBehaviour
                         if (GameManager.script.土坡放置範圍.isContainArea(this.Target.transform.position))
                         {
                             isContain = true;
-                            this.Target.GetComponent<PictureInfo>().CanMove = false;
-                            this.Target.transform.localPosition = new Vector3(0, 0, this.Target.GetComponent<PictureInfo>().MaxDepth);
+
+                            PictureInfo script = this.Target.GetComponent<PictureInfo>();
+                            script.CanMove = false;
+                            script.isUsed = true;
+
+                            this.Target.transform.localPosition = new Vector3(0, 0, script.MaxDepth);
                         }
                     }
 
@@ -161,6 +166,7 @@ public class PickObject : MonoBehaviour
                         if (area.isContainArea(this.Target.transform.position))
                         {
                             isContain = true;
+                            this.Target.GetComponent<PictureInfo>().isUsed = true;
                             break;
                         }
                     }
@@ -170,8 +176,12 @@ public class PickObject : MonoBehaviour
                     if (GameManager.script.土坡放置範圍.isContainArea(this.Target.transform.position))
                     {
                         isContain = true;
-                        this.Target.GetComponent<PictureInfo>().CanMove = false;
-                        this.Target.transform.localPosition = new Vector3(0, 0, this.Target.GetComponent<PictureInfo>().MaxDepth);
+
+                        PictureInfo script = this.Target.GetComponent<PictureInfo>();
+                        script.CanMove = false;
+                        script.isUsed = true;
+
+                        this.Target.transform.localPosition = new Vector3(0, 0, script.MaxDepth);
                     }
                 }
 
