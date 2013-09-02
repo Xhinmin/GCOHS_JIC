@@ -8,8 +8,9 @@ public class PictureInfo : MonoBehaviour
 {
     public PictureType Type;
     public bool CanMove;
+    public bool CanPick;
     public bool isUsed;
-
+    public bool isBlink;
     public float MixScale;
     public float MaxScale;
 
