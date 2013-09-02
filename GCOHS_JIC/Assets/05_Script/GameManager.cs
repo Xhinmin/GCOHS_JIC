@@ -6,24 +6,42 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager script;
 
+    public GameObject TitleShowObject;
+    public DrawStage CurrentDrawStage;
+
     public List<RectArea> 馬樹放置範圍清單;
     public RectArea 土坡放置範圍;
 
     public Transform scaleLineTop;
     public Transform scaleLineBottom;
 
-    // Use this for initialization
-    void Start()
+    void Awake()
     {
         script = this;
     }
 
-    // Update is called once per frame
-    void Update()
+    // Use this for initialization
+    void Start()
     {
-
+        //遊戲開始，首先進入構圖狀態
+        this.ChangeDrawStage(DrawStage.構圖);
     }
 
+    /// <summary>
+    /// 切換作畫階段
+    /// </summary>
+    /// <param name="nextStage">下一階段</param>
+    public void ChangeDrawStage(DrawStage nextStage)
+    {
+        if (nextStage == DrawStage.等待中)
+            return;
+
+        GameObject obj = (GameObject)Instantiate(this.TitleShowObject);
+        SmoothMoves.BoneAnimation boneAnimation = obj.GetComponent<SmoothMoves.BoneAnimation>();
+        boneAnimation.playAutomatically = false;
+        boneAnimation.Play(nextStage.ToString());
+        this.CurrentDrawStage = DrawStage.等待中;
+    }
 
 
     void OnDrawGizmos()
@@ -89,4 +107,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 作畫階段
+    /// </summary>
+    public enum DrawStage
+    {
+        等待中 = 0, 構圖 = 1, 明暗 = 2, 設色 = 3, 淡化 = 4, 光源 = 5
+    }
 }
