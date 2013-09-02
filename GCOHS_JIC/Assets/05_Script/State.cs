@@ -8,7 +8,6 @@ public class State : MonoBehaviour
     public GameObject 構圖的滑鼠拖曳;
     public GameObject 滑鼠點擊;
     private bool 明暗初始化 = false;
-    public StateInfo stateInfo;
     // Use this for initialization
     void Start()
     {
@@ -18,9 +17,15 @@ public class State : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        switch (stateInfo)
+        switch (GameManager.script.CurrentDrawStage)
         {
-            case StateInfo.明暗:
+            case GameManager.DrawStage.等待中:
+                break;
+
+            case GameManager.DrawStage.構圖:
+                break;
+
+            case GameManager.DrawStage.明暗:
                 if (!明暗初始化)
                 {
                     明暗初始化 = true;
@@ -48,14 +53,16 @@ public class State : MonoBehaviour
                 }
                 break;
 
+            case GameManager.DrawStage.設色:
+                break;
 
-            case StateInfo.設色:
-               
+            case GameManager.DrawStage.淡化:
+                break;
+
+            case GameManager.DrawStage.光源:
                 break;
         }
     }
-
-
 
     void changePictureAlpha(float newValue)
     {
@@ -66,11 +73,5 @@ public class State : MonoBehaviour
                 pi.gameObject.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0.9f - newValue));
             }
         }
-    }
-
-
-    public enum StateInfo
-    {
-        構圖 = 0, 明暗 = 1, 設色 = 2
     }
 }
