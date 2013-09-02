@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     /// <param name="nextStage">下一階段</param>
     public void ChangeDrawStage(DrawStage nextStage)
     {
-        if (nextStage == DrawStage.等待中)
+        if (nextStage == DrawStage.等待中 || nextStage > DrawStage.光源)
             return;
 
         GameObject obj = (GameObject)Instantiate(this.TitleShowObject);
@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// 作畫階段
     /// </summary>
-    public enum DrawStage
+    public enum DrawStage : int
     {
         等待中 = 0, 構圖 = 1, 明暗 = 2, 設色 = 3, 淡化 = 4, 光源 = 5
     }
