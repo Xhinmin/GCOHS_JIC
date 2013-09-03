@@ -97,8 +97,8 @@ public class ClickObject : MonoBehaviour
         this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(ChangeObject.GetComponent<SmoothMoves.Sprite>().textureGUID);
         isLock = false;
 
-        this.Target.GetComponent<Step2>().enabled = GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗 ? false : true;
-        this.Target.GetComponent<Step3>().enabled = GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色 ? false : true;
+        this.Target.GetComponent<Step2>().enabled = 
+        this.Target.GetComponent<Step3>().enabled = false;
         //this.Target.GetComponent<Step4>().enabled = GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化 ? false : true;
         //this.Target.GetComponent<Step5>().enabled = GameManager.script.CurrentDrawStage == GameManager.DrawStage.光源 ? false : true;
  

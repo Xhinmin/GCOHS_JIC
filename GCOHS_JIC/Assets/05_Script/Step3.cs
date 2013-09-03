@@ -23,7 +23,7 @@ public class Step3 : MonoBehaviour
         if (顏色三) 顏色三.SetActive(true);
     }
 
-    void Disable()
+    void OnDisable()
     {
         if (顏色一) 顏色一.SetActive(false);
         if (顏色二) 顏色二.SetActive(false);
