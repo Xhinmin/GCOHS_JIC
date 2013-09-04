@@ -4,7 +4,6 @@ using System.Collections;
 // 第三步驟 : 設色
 public class Step3 : MonoBehaviour
 {
-
     public GameObject 畫筆;
     public GameObject 顏色一;
     public GameObject 顏色二;
@@ -14,11 +13,6 @@ public class Step3 : MonoBehaviour
     {
         if (this.enabled)
             this.enabled = false;
-    }
-    // Use this for initialization
-    void Start()
-    {
-
     }
 
     void OnEnable()

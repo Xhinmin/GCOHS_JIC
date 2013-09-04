@@ -9,8 +9,12 @@ public class State : MonoBehaviour
     public GameObject 滑鼠點擊;
     private bool 明暗初始化 = false;
     private bool 設色初始化 = false;
+    private bool 淡化初始化 = false;
+    private bool 光源初始化 = false;
     public GameObject 明暗畫筆;
     public GameObject 設色畫筆;
+    public GameObject 淡化畫筆;
+    public GameObject 光源畫筆;
     // Use this for initialization
     void Start()
     {
@@ -23,6 +27,12 @@ public class State : MonoBehaviour
         switch (GameManager.script.CurrentDrawStage)
         {
             case GameManager.DrawStage.等待中:
+
+                foreach (var pi in 圖案物件.GetComponentsInChildren<PictureInfo>())
+                {
+                    pi.isBlink = false;
+                    pi.gameObject.GetComponent<SmoothMoves.Sprite>().color = new Color(1, 1, 1, 1);
+                }
                 break;
 
             case GameManager.DrawStage.構圖:
@@ -37,10 +47,7 @@ public class State : MonoBehaviour
                     //將馬跟樹閃爍
                     foreach (var pi in 圖案物件.GetComponentsInChildren<PictureInfo>())
                     {
-                        if (!pi.isUsed)
-                        {
-                            pi.gameObject.SetActive(false);
-                        }
+                        if (!pi.isUsed) pi.gameObject.SetActive(false);
                         else
                         {
                             if (pi.Type == PictureInfo.PictureType.馬 || pi.Type == PictureInfo.PictureType.樹)
@@ -64,10 +71,7 @@ public class State : MonoBehaviour
                     //將馬跟樹閃爍
                     foreach (var pi in 圖案物件.GetComponentsInChildren<PictureInfo>())
                     {
-                        if (!pi.isUsed)
-                        {
-                            pi.gameObject.SetActive(false);
-                        }
+                        if (!pi.isUsed) pi.gameObject.SetActive(false);
                         else
                         {
                             if (pi.Type == PictureInfo.PictureType.馬 || pi.Type == PictureInfo.PictureType.樹)
@@ -83,6 +87,26 @@ public class State : MonoBehaviour
                 break;
 
             case GameManager.DrawStage.淡化:
+                if (!淡化初始化)
+                {
+                    淡化初始化 = true;
+                    淡化畫筆.SetActive(false);
+                    //將土坡閃爍
+                    foreach (var pi in 圖案物件.GetComponentsInChildren<PictureInfo>())
+                    {
+                        if (!pi.isUsed) pi.gameObject.SetActive(false);
+                        else
+                        {
+                            if (pi.Type == PictureInfo.PictureType.土坡)
+                            {
+                                pi.isBlink = true;
+                                if (!pi.GetComponent<iTween>())
+                                    iTween.ValueTo(pi.gameObject, iTween.Hash("name", "PickObject", "from", 1, "to", 0.2, "time", 0.5, "loopType", "pingPong", "onupdatetarget", this.gameObject, "onupdate", "changePictureAlpha"));
+
+                            }
+                        }
+                    }
+                }
                 break;
 
             case GameManager.DrawStage.光源:

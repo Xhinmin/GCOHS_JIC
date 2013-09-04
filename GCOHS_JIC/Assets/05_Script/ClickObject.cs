@@ -17,7 +17,7 @@ public class ClickObject : MonoBehaviour
 
     //是否可以選擇下一個　物件　的鎖定狀態
     private bool isLock;
-
+    //需要被初始化 用於滑鼠點擊新物件與舊物件的區分
     private bool isNeedInit;
     // Use this for initialization
     void Start()
@@ -94,6 +94,12 @@ public class ClickObject : MonoBehaviour
                     }
                 }
 
+
+
+
+
+
+
                 if (!Input.GetKey(KeyCode.Mouse0) && !Input.GetKey(KeyCode.Mouse1))
                     this.currentMouseType = MouseType.放開;
                 break;
@@ -117,10 +123,11 @@ public class ClickObject : MonoBehaviour
         //選取圖片後 關閉操作區 [0904功能取消]
         //this.Target.GetComponent<Step2>().enabled =
         //this.Target.GetComponent<Step3>().enabled = false;
-        //this.Target.GetComponent<Step4>().enabled = GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化 ? false : true;
-        //this.Target.GetComponent<Step5>().enabled = GameManager.script.CurrentDrawStage == GameManager.DrawStage.光源 ? false : true;
     }
 
+    /// <summary>
+    /// 改變操作區 構圖的圖片變明暗圖 , 並將Target一同改變成明暗圖 【明暗】
+    /// </summary>
     public void SetPictureStep2(GameObject ChangeObject)
     {
         if (Target.gameObject.name == "馬1")
@@ -162,10 +169,8 @@ public class ClickObject : MonoBehaviour
     {
         if (Target)
         {
-
             this.Target.GetComponent<Step2>().enabled =
             this.Target.GetComponent<Step3>().enabled = false;
-
         }
     }
 

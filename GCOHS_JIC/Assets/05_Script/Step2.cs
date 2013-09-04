@@ -6,18 +6,12 @@ public class Step2 : MonoBehaviour
 {
     public GameObject 畫筆;
     public GameObject 明圖;
-    //public GameObject 暗圖;
 
     void Awake()
     {
         if (this.enabled)
             this.enabled = false;
     }
-    // Use this for initialization
-    void Start()
-    {
-    }
-
 
     void OnEnable()
     {
