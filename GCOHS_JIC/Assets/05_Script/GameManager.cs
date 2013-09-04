@@ -15,6 +15,13 @@ public class GameManager : MonoBehaviour
     public Transform scaleLineTop;
     public Transform scaleLineBottom;
 
+
+    public string 馬1_GUID;
+    public string 馬2_GUID;
+    public string 馬3_GUID;
+    public string 樹1_GUID;
+    public string 樹2_GUID;
+
     void Awake()
     {
         script = this;

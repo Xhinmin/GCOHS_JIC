@@ -9,6 +9,8 @@ public class State : MonoBehaviour
     public GameObject 滑鼠點擊;
     private bool 明暗初始化 = false;
     private bool 設色初始化 = false;
+    public GameObject 明暗畫筆;
+    public GameObject 設色畫筆;
     // Use this for initialization
     void Start()
     {
@@ -58,6 +60,7 @@ public class State : MonoBehaviour
                 if (!設色初始化)
                 {
                     設色初始化 = true;
+                    明暗畫筆.SetActive(false);
                     //將馬跟樹閃爍
                     foreach (var pi in 圖案物件.GetComponentsInChildren<PictureInfo>())
                     {

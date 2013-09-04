@@ -20,14 +20,18 @@ public class MouseRaycast : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Physics.Raycast(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition), new Vector3(0, 0, 1), out this.hit, 100))
+        if (Physics.Raycast(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition), new Vector3(0, 0, 1), out this.hit, 1000))
         {
             if (hit.transform.gameObject == this.gameObject)
             {
                 if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse1))
                 {
                     MouseTarget = hit.transform.gameObject;
-                    ClickObject.script.SetPicture(MouseTarget);
+
+                    if(GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
+                        ClickObject.script.SetPictureStep3(MouseTarget);
+                    else
+                        ClickObject.script.SetPictureStep2(MouseTarget);
                 }
             }
         }

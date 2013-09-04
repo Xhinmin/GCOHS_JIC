@@ -29,6 +29,5 @@ public class Step2 : MonoBehaviour
     void OnDisable()
     {
         if (明圖) 明圖.SetActive(false);
-        if (畫筆) 畫筆.SetActive(false);
     }
 }
