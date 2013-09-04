@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager script;
 
+    public GameObject StageHintObject;
+    private GameObject currentStageHintObject;
     public GameObject TitleShowObject;
     public DrawStage CurrentDrawStage;
 
@@ -47,9 +49,23 @@ public class GameManager : MonoBehaviour
         SmoothMoves.BoneAnimation boneAnimation = obj.GetComponent<SmoothMoves.BoneAnimation>();
         boneAnimation.playAutomatically = false;
         boneAnimation.Play(nextStage.ToString());
+
+        if (this.currentStageHintObject != null)
+            Destroy(this.currentStageHintObject);
         this.CurrentDrawStage = DrawStage.等待中;
     }
 
+    /// <summary>
+    /// 開啟當前階段的提示
+    /// </summary>
+    /// <param name="currentStage">目前進行階段</param>
+    public void ShowStageHint(DrawStage currentStage)
+    {
+        this.currentStageHintObject = (GameObject)Instantiate(this.StageHintObject);
+        SmoothMoves.BoneAnimation boneAnimation = this.currentStageHintObject.GetComponent<SmoothMoves.BoneAnimation>();
+        boneAnimation.playAutomatically = false;
+        boneAnimation.Play(currentStage.ToString());
+    }
 
     void OnDrawGizmos()
     {
