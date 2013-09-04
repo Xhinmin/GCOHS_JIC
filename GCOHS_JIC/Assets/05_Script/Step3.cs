@@ -5,6 +5,7 @@ using System.Collections;
 public class Step3 : MonoBehaviour
 {
 
+    public GameObject 畫筆;
     public GameObject 顏色一;
     public GameObject 顏色二;
     public GameObject 顏色三;
@@ -17,11 +18,18 @@ public class Step3 : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+
+    }
+
+    void OnEnable()
+    {
         print(gameObject.name + "第三步驟的功能被開啟了");
+        if (畫筆) 畫筆.SetActive(true);
         if (顏色一) 顏色一.SetActive(true);
         if (顏色二) 顏色二.SetActive(true);
         if (顏色三) 顏色三.SetActive(true);
     }
+
 
     void OnDisable()
     {

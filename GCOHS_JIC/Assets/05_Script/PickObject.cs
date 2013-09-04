@@ -78,7 +78,7 @@ public class PickObject : MonoBehaviour
                 break;
 
             case MouseType.拖曳中:
-                if (this.currentPictureType == PictureInfo.PictureType.馬樹)
+                if (this.currentPictureType == PictureInfo.PictureType.馬 || this.currentPictureType == PictureInfo.PictureType.樹 || this.currentPictureType == PictureInfo.PictureType.未分類)
                 {
                     //將中心點修正
                     float offsetY = this.Target.GetComponent<SmoothMoves.Sprite>().size.y * this.Target.transform.localScale.y * 0.5f;
@@ -104,13 +104,13 @@ public class PickObject : MonoBehaviour
 
                 this.Target.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 1));
 
-                if (this.currentPictureType == PictureInfo.PictureType.馬樹)
+                if (this.currentPictureType == PictureInfo.PictureType.馬 || this.currentPictureType == PictureInfo.PictureType.樹 || this.currentPictureType == PictureInfo.PictureType.未分類)
                     this.馬樹範圍提示物件.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0));
                 else if (this.currentPictureType == PictureInfo.PictureType.土坡)
                     this.土坡範圍提示物件.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0));
 
                 bool isContain = false;
-                if (this.currentPictureType == PictureInfo.PictureType.馬樹)
+                if (this.currentPictureType == PictureInfo.PictureType.馬 || this.currentPictureType == PictureInfo.PictureType.樹 || this.currentPictureType == PictureInfo.PictureType.未分類)
                 {
                     foreach (var area in GameManager.script.馬樹放置範圍清單)
                     {
@@ -152,7 +152,7 @@ public class PickObject : MonoBehaviour
         {
             this.Target.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, newValue));
 
-            if (this.currentPictureType == PictureInfo.PictureType.馬樹)
+            if (this.currentPictureType == PictureInfo.PictureType.馬 || this.currentPictureType == PictureInfo.PictureType.樹 || this.currentPictureType == PictureInfo.PictureType.未分類)
                 this.馬樹範圍提示物件.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0.9f - newValue));
 
             else if (this.currentPictureType == PictureInfo.PictureType.土坡)

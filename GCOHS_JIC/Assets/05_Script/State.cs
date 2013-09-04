@@ -41,10 +41,9 @@ public class State : MonoBehaviour
                         }
                         else
                         {
-                            if (pi.Type == PictureInfo.PictureType.馬樹)
+                            if (pi.Type == PictureInfo.PictureType.馬 || pi.Type == PictureInfo.PictureType.樹)
                             {
                                 pi.isBlink = true;
-                                pi.CanPick = true;
                                 if (!pi.GetComponent<iTween>())
                                     iTween.ValueTo(pi.gameObject, iTween.Hash("name", "PickObject", "from", 1, "to", 0.2, "time", 0.5, "loopType", "pingPong", "onupdatetarget", this.gameObject, "onupdate", "changePictureAlpha"));
 
@@ -68,10 +67,9 @@ public class State : MonoBehaviour
                         }
                         else
                         {
-                            if (pi.Type == PictureInfo.PictureType.馬樹)
+                            if (pi.Type == PictureInfo.PictureType.馬 || pi.Type == PictureInfo.PictureType.樹)
                             {
                                 pi.isBlink = true;
-                                pi.CanPick = true;
                                 if (!pi.GetComponent<iTween>())
                                     iTween.ValueTo(pi.gameObject, iTween.Hash("name", "PickObject", "from", 1, "to", 0.2, "time", 0.5, "loopType", "pingPong", "onupdatetarget", this.gameObject, "onupdate", "changePictureAlpha"));
 

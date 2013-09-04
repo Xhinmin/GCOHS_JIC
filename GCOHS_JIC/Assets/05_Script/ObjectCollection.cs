@@ -21,7 +21,7 @@ public class ObjectCollection : MonoBehaviour
                 if (script.isUsed)
                     使用土坡數量++;
             }
-            else if (script.Type == PictureInfo.PictureType.馬樹)
+            else if (script.Type == PictureInfo.PictureType.馬 || script.Type == PictureInfo.PictureType.樹)
             {
                 if (script.isUsed)
                     使用馬樹數量++;

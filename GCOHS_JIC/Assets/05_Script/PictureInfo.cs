@@ -8,7 +8,6 @@ public class PictureInfo : MonoBehaviour
 {
     public PictureType Type;
     public bool CanMove;
-    public bool CanPick;
     public bool isUsed;
     public bool isBlink;
     public float MixScale;
@@ -49,6 +48,6 @@ public class PictureInfo : MonoBehaviour
 
     public enum PictureType
     {
-        未定義 = 0, 馬樹 = 1, 土坡 = 2
+        未定義 = 0, 馬 = 1 , 樹 = 2, 土坡 = 3 , 未分類 = 4
     }
 }
