@@ -8,7 +8,6 @@ public class NextButton : MonoBehaviour
 {
     public Camera ViewCamera;
     public LayerMask TargetLayer;
-
     // Update is called once per frame
     void Update()
     {
