@@ -67,7 +67,7 @@ public class State : MonoBehaviour
                 if (!設色初始化)
                 {
                     設色初始化 = true;
-                    明暗畫筆.SetActive(false);
+                    明暗畫筆.transform.parent.gameObject.SetActive(false);
                     //將馬跟樹閃爍
                     foreach (var pi in 圖案物件.GetComponentsInChildren<PictureInfo>())
                     {
