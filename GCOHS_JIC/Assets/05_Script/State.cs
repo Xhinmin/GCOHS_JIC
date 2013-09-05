@@ -36,7 +36,7 @@ public class State : MonoBehaviour
                 {
                     pi.isBlink = false;
                     pi.gameObject.GetComponent<SmoothMoves.Sprite>().color = new Color(1, 1, 1, 1);
-
+                    pi.GetComponent<SmoothMoves.Sprite>().UpdateArrays();
                 }
                 滑鼠的拖曳.SetActive(false);
                 滑鼠的點擊.SetActive(false);
