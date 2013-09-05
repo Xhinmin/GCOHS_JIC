@@ -121,7 +121,10 @@ public class State : MonoBehaviour
                 if (!淡化初始化)
                 {
                     淡化初始化 = true;
-                    淡化圖片區.SetActive(false);
+                    ClickObject.script.isLock = false;
+                    滑鼠的點擊.SetActive(true);
+                    淡化圖片區.SetActive(true);
+                    淡化圖片區畫筆.SetActive(true);
                     //將土坡閃爍
                     foreach (var pi in 圖案物件.GetComponentsInChildren<PictureInfo>())
                     {

@@ -23,6 +23,9 @@ public class GameManager : MonoBehaviour
     public string 馬3_GUID;
     public string 樹1_GUID;
     public string 樹2_GUID;
+    public string 土坡1_GUID;
+    public string 土坡2_GUID;
+    public string 土坡3_GUID;
 
     void Awake()
     {

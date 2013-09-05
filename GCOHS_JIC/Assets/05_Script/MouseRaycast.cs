@@ -33,6 +33,9 @@ public class MouseRaycast : MonoBehaviour
 
                     if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗)
                         ClickObject.script.SetPictureStep2(MouseTarget);
+
+                    if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化)
+                        ClickObject.script.SetPictureStep4();
                 }
                 
             }
