@@ -28,11 +28,13 @@ public class MouseRaycast : MonoBehaviour
                 {
                     MouseTarget = hit.transform.gameObject;
 
-                    if(GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
+                    if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
                         ClickObject.script.SetPictureStep3(MouseTarget);
-                    else
+
+                    if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗)
                         ClickObject.script.SetPictureStep2(MouseTarget);
                 }
+                
             }
         }
     }
