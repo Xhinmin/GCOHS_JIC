@@ -123,7 +123,7 @@ public class ClickObject : MonoBehaviour
     public void SetPictureStep3(GameObject ChangeObject)
     {
         this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(ChangeObject.GetComponent<SmoothMoves.Sprite>().textureGUID);
-
+        this.Target.GetComponent<PictureInfo>().isUsed = true;
         //選取圖片後 關閉操作區 [0904功能取消]
         //this.Target.GetComponent<Step2>().enabled =
         //this.Target.GetComponent<Step3>().enabled = false;
@@ -139,30 +139,35 @@ public class ClickObject : MonoBehaviour
         {
             this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.馬1_GUID);
             GameObject.Find("馬1-明").GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.馬1_GUID);
+            this.Target.GetComponent<PictureInfo>().isUsed = true;
         }
 
         if (Target.gameObject.name == "馬2")
         {
             this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.馬2_GUID);
             GameObject.Find("馬2-明").GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.馬2_GUID);
+            this.Target.GetComponent<PictureInfo>().isUsed = true;
         }
 
         if (Target.gameObject.name == "馬3")
         {
             this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.馬3_GUID);
             GameObject.Find("馬3-明").GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.馬3_GUID);
+            this.Target.GetComponent<PictureInfo>().isUsed = true;
         }
 
         if (Target.gameObject.name == "樹1")
         {
             this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.樹1_GUID);
             GameObject.Find("樹1-明").GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.樹1_GUID);
+            this.Target.GetComponent<PictureInfo>().isUsed = true;
         }
 
         if (Target.gameObject.name == "樹2")
         {
             this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.樹2_GUID);
             GameObject.Find("樹2-明").GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.樹2_GUID);
+            this.Target.GetComponent<PictureInfo>().isUsed = true;
         }
     }
 
@@ -177,18 +182,21 @@ public class ClickObject : MonoBehaviour
         {
             this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.土坡1_GUID);
             GameObject.Find("土坡1-淡化").GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.土坡1_GUID);
+            this.Target.GetComponent<PictureInfo>().isUsed = true;
         }
 
         if (Target.gameObject.name == "土坡2(物件)")
         {
             this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.土坡2_GUID);
             GameObject.Find("土坡2-淡化").GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.土坡2_GUID);
+            this.Target.GetComponent<PictureInfo>().isUsed = true;
         }
 
         if (Target.gameObject.name == "土坡3(物件)")
         {
             this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.土坡3_GUID);
             GameObject.Find("土坡3-淡化").GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.土坡3_GUID);
+            this.Target.GetComponent<PictureInfo>().isUsed = true;
         }
     }
 

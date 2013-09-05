@@ -4,7 +4,7 @@ using System.Collections;
 /// <summary>
 /// 下一步按鈕的控制
 /// </summary>
-public class NextButton : MonoBehaviour
+public class NextButtonDetect : MonoBehaviour
 {
     public Camera ViewCamera;
     public LayerMask TargetLayer;
