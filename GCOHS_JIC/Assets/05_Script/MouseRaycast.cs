@@ -11,7 +11,7 @@ public class MouseRaycast : MonoBehaviour
     public Camera ViewCamera;
     private RaycastHit hit;
     public GameObject MouseTarget;
-        // Use this for initialization
+    // Use this for initialization
     void Start()
     {
         script = this;
@@ -26,18 +26,20 @@ public class MouseRaycast : MonoBehaviour
             {
                 if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse1))
                 {
-                    MouseTarget = hit.transform.gameObject;
 
-                    if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
-                        ClickObject.script.SetPictureStep3(MouseTarget);
+                        MouseTarget = hit.transform.gameObject;
 
-                    if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗)
-                        ClickObject.script.SetPictureStep2(MouseTarget);
+                        if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
+                            ClickObject.script.SetPictureStep3(MouseTarget);
 
-                    if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化)
-                        ClickObject.script.SetPictureStep4();
+                        if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗)
+                            ClickObject.script.SetPictureStep2(MouseTarget);
+
+                        if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化)
+                            ClickObject.script.SetPictureStep4();
+                    
                 }
-                
+
             }
         }
     }

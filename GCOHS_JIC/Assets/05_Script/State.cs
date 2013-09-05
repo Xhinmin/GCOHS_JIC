@@ -40,6 +40,8 @@ public class State : MonoBehaviour
                 }
                 滑鼠的拖曳.SetActive(false);
                 滑鼠的點擊.SetActive(false);
+                if(ClickObject.script)  ClickObject.script.currentMouseType = ClickObject.MouseType.無狀態;
+
                 if (明暗圖片區)
                 {
                     明暗圖片區.SetActive(false);
