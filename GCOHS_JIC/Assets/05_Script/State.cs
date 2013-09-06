@@ -18,7 +18,9 @@ public class State : MonoBehaviour
     public GameObject 明暗圖片區畫筆;
     public GameObject 設色圖片區畫筆;
     public GameObject 淡化圖片區畫筆;
-    public GameObject 光源圖片區畫筆;
+    public GameObject[] 影子;
+    public GameObject 光源的控制桿;
+
     // Use this for initialization
     void Start()
     {
@@ -40,7 +42,7 @@ public class State : MonoBehaviour
                 }
                 滑鼠的拖曳.SetActive(false);
                 滑鼠的點擊.SetActive(false);
-                if(ClickObject.script)  ClickObject.script.currentMouseType = ClickObject.MouseType.無狀態;
+                if (ClickObject.script) ClickObject.script.currentMouseType = ClickObject.MouseType.無狀態;
 
                 if (明暗圖片區)
                 {
@@ -60,7 +62,7 @@ public class State : MonoBehaviour
                 if (光源圖片區)
                 {
                     光源圖片區.SetActive(false);
-                    光源圖片區畫筆.SetActive(false);
+                    光源的控制桿.SetActive(false);
                 }
                 break;
 
@@ -148,6 +150,18 @@ public class State : MonoBehaviour
                 break;
 
             case GameManager.DrawStage.光源:
+                if (!光源初始化)
+                {
+                    光源初始化 = true;
+                    滑鼠的點擊.SetActive(true);
+                    光源圖片區.SetActive(true);
+                    光源的控制桿.SetActive(true);
+                    foreach (GameObject gameObject in 影子)
+                    {
+                        gameObject.SetActive(true);
+                        iTween.ValueTo(光源的控制桿, iTween.Hash("name", "PickObject", "from", 1, "to", 0.2, "time", 0.5, "loopType", "pingPong", "onupdatetarget", this.gameObject, "onupdate", "changePictureAlphaStep5"));
+                    }
+                }
                 break;
         }
     }
@@ -161,5 +175,10 @@ public class State : MonoBehaviour
                 pi.gameObject.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0.9f - newValue));
             }
         }
+    }
+
+    void changePictureAlphaStep5(float newValue)
+    {
+        光源的控制桿.gameObject.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0.9f - newValue));
     }
 }
