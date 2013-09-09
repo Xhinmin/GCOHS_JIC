@@ -17,10 +17,14 @@ public class ClickObjectStep5 : MonoBehaviour
     //是否可以選擇下一個　物件　的鎖定狀態
     public bool isLock;
 
+    private float originalScaleX;
+    private float originalScaleY;
     // Use this for initialization
     void Start()
     {
         script = this;
+        originalScaleX = gameObject.transform.localScale.x;
+        originalScaleY = gameObject.transform.localScale.y;
     }
 
     // Update is called once per frame
@@ -66,7 +70,7 @@ public class ClickObjectStep5 : MonoBehaviour
                         if (gameObject.activeInHierarchy)
                         {
                             gameObject.transform.localScale = new Vector3(
-                                Mathf.Lerp(2,1,Mathf.Abs(this.hit.transform.position.x - Center) / 110F),
+                                Mathf.Lerp(1,2, Mathf.Abs(this.hit.transform.position.x - Center) / 110F),
                                 gameObject.transform.localScale.y,
                                 gameObject.transform.localScale.z);
 
