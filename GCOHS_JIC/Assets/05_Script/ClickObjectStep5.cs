@@ -70,7 +70,7 @@ public class ClickObjectStep5 : MonoBehaviour
                         if (gameObject.activeInHierarchy)
                         {
                             gameObject.transform.localScale = new Vector3(
-                                Mathf.Lerp(1,2, Mathf.Abs(this.hit.transform.position.x - Center) / 110F),
+                                Mathf.Lerp(1,1.5F, Mathf.Abs(this.hit.transform.position.x - Center) / 110F),
                                 gameObject.transform.localScale.y,
                                 gameObject.transform.localScale.z);
 

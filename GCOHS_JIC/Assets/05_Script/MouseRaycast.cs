@@ -11,6 +11,11 @@ public class MouseRaycast : MonoBehaviour
     public Camera ViewCamera;
     private RaycastHit hit;
     public GameObject MouseTarget;
+
+    //九月九號新增 當畫筆被點擊後 才能開啟變色功能
+    public bool 限定畫筆模式;
+    private static bool 已開啟畫筆模式;
+
     // Use this for initialization
     void Start()
     {
@@ -27,17 +32,37 @@ public class MouseRaycast : MonoBehaviour
                 if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse1))
                 {
 
-                        MouseTarget = hit.transform.gameObject;
+                    MouseTarget = hit.transform.gameObject;
 
-                        if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
-                            ClickObject.script.SetPictureStep3(MouseTarget);
-
+                    if (已開啟畫筆模式 && !限定畫筆模式)
+                    {
                         if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗)
+                        {
                             ClickObject.script.SetPictureStep2(MouseTarget);
+                            已開啟畫筆模式 = false;
+                        }
 
                         if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化)
+                        {
                             ClickObject.script.SetPictureStep4();
-                    
+                            已開啟畫筆模式 = false;
+                        }
+                    }
+
+
+                    if (限定畫筆模式)
+                    {
+                        已開啟畫筆模式 = true;
+                    }
+
+
+
+
+                    if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
+                    {
+                        ClickObject.script.SetPictureStep3(MouseTarget);
+                        已開啟畫筆模式 = false;
+                    }
                 }
 
             }
