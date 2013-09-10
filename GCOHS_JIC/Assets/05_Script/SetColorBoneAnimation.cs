@@ -6,7 +6,7 @@ public class SetColorBoneAnimation : MonoBehaviour
     public static SetColorBoneAnimation script;
     public PictureType pictureType;
     // Use this for initialization
-    SmoothMoves.BoneAnimation boneAnimation;
+    private SmoothMoves.BoneAnimation boneAnimation;
 
     void Start()
     {
@@ -64,10 +64,7 @@ public class SetColorBoneAnimation : MonoBehaviour
             case PictureType.樹2顏色3:
                 boneAnimation.Play("樹2顏色3");
                 break;
-        
         }
-
-
     }
 
     public enum PictureType
