@@ -4,23 +4,23 @@ using System.Collections;
 public class SetColorBoneAnimation : MonoBehaviour
 {
     public static SetColorBoneAnimation script;
-    public GameObject Prefab;
     public PictureType pictureType;
     // Use this for initialization
+    SmoothMoves.BoneAnimation boneAnimation;
+
     void Start()
     {
-
+        boneAnimation = this.GetComponent<SmoothMoves.BoneAnimation>();
+        boneAnimation.playAutomatically = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        SmoothMoves.BoneAnimation boneAnimation = this.GetComponent<SmoothMoves.BoneAnimation>();
-       // boneAnimation.playAutomatically = false;
         switch (pictureType)
         {
             case PictureType.馬1顏色1:
-                boneAnimation.Play("馬1顏色2");
+                boneAnimation.Play("馬1顏色1");
                 break;
             case PictureType.馬1顏色2:
                 boneAnimation.Play("馬1顏色2");
