@@ -1,26 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//狀態機
+
 public class State : MonoBehaviour
 {
     public static State script;
     public GameObject 圖案物件;
-    public GameObject 滑鼠的拖曳;
-    public GameObject 滑鼠的點擊;
+
     private bool 明暗初始化 = false;
     private bool 設色初始化 = false;
     private bool 淡化初始化 = false;
     private bool 光源初始化 = false;
-    public GameObject 明暗圖片區;
-    public GameObject 設色圖片區;
-    public GameObject 淡化圖片區;
-    public GameObject 光源圖片區;
-    public GameObject 明暗圖片區畫筆;
-    public GameObject 設色圖片區畫筆;
-    public GameObject 淡化圖片區畫筆;
+
     public GameObject[] 影子;
     public GameObject 光源的控制桿;
 
+    public GameObject 第一階段構圖操作區;
+    public GameObject 第二階段明暗操作區;
+    public GameObject 第三階段設色操作區;
+    public GameObject 第四階段淡化操作區;
+    public GameObject 第五階段光源操作區;
+
+    public GameObject 第一階段構圖操控;
+    public GameObject 第二三四階段明暗設色淡化操控;
+
+    private Transform[] brinkGameObjects;
     // Use this for initialization
     void Start()
     {
@@ -34,49 +39,36 @@ public class State : MonoBehaviour
         {
             case GameManager.DrawStage.等待中:
 
+                //圖片閃爍中止
                 foreach (var pi in 圖案物件.GetComponentsInChildren<PictureInfo>())
                 {
                     pi.isBlink = false;
                     pi.gameObject.GetComponent<SmoothMoves.Sprite>().color = new Color(1, 1, 1, 1);
                     pi.GetComponent<SmoothMoves.Sprite>().UpdateArrays();
                 }
-                滑鼠的拖曳.SetActive(false);
-                滑鼠的點擊.SetActive(false);
-                if (ClickObject.script) ClickObject.script.currentMouseType = ClickObject.MouseType.無狀態;
+                第一階段構圖操控.SetActive(false);
+                第二三四階段明暗設色淡化操控.SetActive(false);
+                
+                第二階段明暗操作區.SetActive(false);
+                第三階段設色操作區.SetActive(false);
+                第四階段淡化操作區.SetActive(false);
+                第五階段光源操作區.SetActive(false);
 
-                if (明暗圖片區)
-                {
-                    明暗圖片區.SetActive(false);
-                    明暗圖片區畫筆.SetActive(false);
-                }
-                if (設色圖片區)
-                {
-                    設色圖片區.SetActive(false);
-                    設色圖片區畫筆.SetActive(false);
-                }
-                if (淡化圖片區)
-                {
-                    淡化圖片區.SetActive(false);
-                    淡化圖片區畫筆.SetActive(false);
-                }
-                if (光源圖片區)
-                {
-                    光源圖片區.SetActive(false);
-                    光源的控制桿.SetActive(false);
-                }
+                if (ClickObject.script) ClickObject.script.currentMouseType = ClickObject.MouseType.無狀態;
                 break;
 
             case GameManager.DrawStage.構圖:
-                滑鼠的拖曳.SetActive(true);
+                第一階段構圖操作區.SetActive(true);
+                第一階段構圖操控.SetActive(true);
                 break;
 
             case GameManager.DrawStage.明暗:
+
                 if (!明暗初始化)
                 {
                     明暗初始化 = true;
-                    滑鼠的點擊.SetActive(true);
-                    明暗圖片區.SetActive(true);
-                    明暗圖片區畫筆.SetActive(true);
+                    第二三四階段明暗設色淡化操控.SetActive(true);
+                    第二階段明暗操作區.SetActive(true);
                     //將馬跟樹閃爍
                     foreach (var pi in 圖案物件.GetComponentsInChildren<PictureInfo>())
                     {
@@ -101,9 +93,8 @@ public class State : MonoBehaviour
                 if (!設色初始化)
                 {
                     設色初始化 = true;
-                    滑鼠的點擊.SetActive(true);
-                    設色圖片區.SetActive(true);
-                    設色圖片區畫筆.SetActive(true);
+                    第二三四階段明暗設色淡化操控.SetActive(true);
+                    第三階段設色操作區.SetActive(true);
                     //將馬跟樹閃爍
                     foreach (var pi in 圖案物件.GetComponentsInChildren<PictureInfo>())
                     {
@@ -128,9 +119,8 @@ public class State : MonoBehaviour
                 {
                     淡化初始化 = true;
                     ClickObject.script.isLock = false;
-                    滑鼠的點擊.SetActive(true);
-                    淡化圖片區.SetActive(true);
-                    淡化圖片區畫筆.SetActive(true);
+                    第二三四階段明暗設色淡化操控.SetActive(true);
+                    第四階段淡化操作區.SetActive(true);
                     //將土坡閃爍
                     foreach (var pi in 圖案物件.GetComponentsInChildren<PictureInfo>())
                     {
@@ -153,8 +143,8 @@ public class State : MonoBehaviour
                 if (!光源初始化)
                 {
                     光源初始化 = true;
-                    滑鼠的點擊.SetActive(true);
-                    光源圖片區.SetActive(true);
+                    第二三四階段明暗設色淡化操控.SetActive(true);
+                    第五階段光源操作區.SetActive(true);
                     光源的控制桿.SetActive(true);
                     foreach (GameObject gameObject in 影子)
                     {
@@ -180,5 +170,18 @@ public class State : MonoBehaviour
     void changePictureAlphaStep5(float newValue)
     {
         光源的控制桿.gameObject.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0.9f - newValue));
+    }
+
+    void MakeObjectBlinks(float newValue)
+    {
+        foreach (Transform gameobject in brinkGameObjects)
+        {
+            gameObject.gameObject.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0.9f - newValue));
+        }
+    }
+
+    public void SetBrinkGameObjects(Transform[] newBrinkGameObjects)
+    {
+        brinkGameObjects = newBrinkGameObjects;
     }
 }

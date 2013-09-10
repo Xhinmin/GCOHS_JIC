@@ -61,14 +61,14 @@ public class ClickObject : MonoBehaviour
                             //如果切換圖片後　再解除Lock 才能賦予新的Target [0904更新 不需要Lock]
                             if (innerHit.transform.gameObject.GetComponent<PictureInfo>().isBlink)
                             {
-                                //【明暗】、【淡化】
+                                //【明暗】與【淡化】部分 鎖定被選定的物件;沒變化前不解鎖
                                 if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗 ||
                                     GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化)
                                 {
                                     if (!this.isLock)
                                     {
                                         isLock = true;
-                                        ClearControlArea();
+                                        ClearControlArea();//清空操作區
                                         this.Target = innerHit.transform.gameObject;
                                     }
                                 }
@@ -91,10 +91,10 @@ public class ClickObject : MonoBehaviour
                                 this.Target.GetComponent<PictureInfo>().isBlink = false;
                                 this.Target.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 1));
 
+                                //開啟各階段程式
                                 if (this.Target.GetComponent<Step2>()) this.Target.GetComponent<Step2>().enabled = GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗 ? true : false;
                                 if (this.Target.GetComponent<Step3>()) this.Target.GetComponent<Step3>().enabled = GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色 ? true : false;
                                 if (this.Target.GetComponent<Step4>()) this.Target.GetComponent<Step4>().enabled = GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化 ? true : false;
-                                //this.Target.GetComponent<Step5>().enabled = GameManager.script.CurrentDrawStage == GameManager.DrawStage. ? true : false;
 
                                 break;
                             }
@@ -115,7 +115,8 @@ public class ClickObject : MonoBehaviour
     /// </summary>
     public void SetPictureStep3(GameObject ChangeObject)
     {
-        this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(ChangeObject.GetComponent<SmoothMoves.Sprite>().textureGUID);
+        print("改變3");
+        //this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(ChangeObject.GetComponent<SmoothMoves.Sprite>().textureGUID);
         this.Target.GetComponent<PictureInfo>().isUsed = true;
     }
 
@@ -124,6 +125,7 @@ public class ClickObject : MonoBehaviour
     /// </summary>
     public void SetPictureStep2(GameObject ChangeObject)
     {
+        print("改變2");
         isLock = false;
         if (Target.gameObject.name == "馬1")
         {
@@ -202,7 +204,6 @@ public class ClickObject : MonoBehaviour
             if (this.Target.GetComponent<Step2>()) this.Target.GetComponent<Step2>().enabled = false;
             if (this.Target.GetComponent<Step3>()) this.Target.GetComponent<Step3>().enabled = false;
             if (this.Target.GetComponent<Step4>()) this.Target.GetComponent<Step4>().enabled = false;
-
         }
     }
 

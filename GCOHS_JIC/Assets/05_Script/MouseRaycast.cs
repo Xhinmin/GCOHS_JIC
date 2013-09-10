@@ -11,10 +11,12 @@ public class MouseRaycast : MonoBehaviour
     public Camera ViewCamera;
     private RaycastHit hit;
     public GameObject MouseTarget;
+    public PictureType pictureType;
+    public bool isBlink;
+
 
     //九月九號新增 當畫筆被點擊後 才能開啟變色功能
-    public bool 限定畫筆模式;
-    private static bool 已開啟畫筆模式;
+    private static bool 是否可以對操作區的物件上色 = false;
 
     // Use this for initialization
     void Start()
@@ -25,47 +27,120 @@ public class MouseRaycast : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (this.gameObject.GetComponent<SmoothMoves.Sprite>())
+        {
+            switch (pictureType)
+            {
+                // 處理潑墨部分的閃爍
+                case MouseRaycast.PictureType.潑墨:
+                    if (!GetComponent<iTween>() && this.isBlink)
+                    {
+                        this.gameObject.GetComponent<SmoothMoves.Sprite>().color = new Color(1, 1, 1, 1);
+                        iTween.ValueTo(this.gameObject, iTween.Hash("from", 1, "to", 0.2, "time", 0.5, "loopType", "pingPong", "onupdate", "changePictureAlpha"));
+                    }
+                    else if (!this.isBlink)
+                    {
+                        iTween.Stop(this.gameObject);
+                        this.gameObject.GetComponent<SmoothMoves.Sprite>().color = new Color(1, 1, 1, 1);
+                        this.gameObject.GetComponent<SmoothMoves.Sprite>().UpdateArrays();
+                    }
+                    break;
+
+                // 處理操作區物件的閃爍
+                case MouseRaycast.PictureType.操作區物件:
+
+                    if (!GetComponent<iTween>() && 是否可以對操作區的物件上色)
+                    {
+                        this.gameObject.GetComponent<SmoothMoves.Sprite>().color = new Color(1, 1, 1, 1);
+                        iTween.ValueTo(this.gameObject, iTween.Hash("from", 1, "to", 0.2, "time", 0.5, "loopType", "pingPong", "onupdate", "changePictureAlpha"));
+                    }
+                    else if (!是否可以對操作區的物件上色)
+                    {
+                        iTween.Stop(this.gameObject);
+                        this.gameObject.GetComponent<SmoothMoves.Sprite>().color = new Color(1, 1, 1, 1);
+                        this.gameObject.GetComponent<SmoothMoves.Sprite>().UpdateArrays();
+                    }
+                    break;
+            }
+        }
+
         if (Physics.Raycast(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition), new Vector3(0, 0, 1), out this.hit, 1000))
         {
             if (hit.transform.gameObject == this.gameObject)
             {
                 if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse1))
                 {
-
                     MouseTarget = hit.transform.gameObject;
 
-                    if (已開啟畫筆模式 && !限定畫筆模式)
+                    if (pictureType == PictureType.潑墨)
                     {
-                        if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗)
+                        if (isBlink)
                         {
-                            ClickObject.script.SetPictureStep2(MouseTarget);
-                            已開啟畫筆模式 = false;
-                        }
+                            isBlink = false;
+                            if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
+                            {
+                                foreach (Transform child in this.transform.parent.parent)
+                                {
+                                    foreach (Transform innerchild in child)
+                                    {
+                                        if (innerchild != this.transform)
+                                            innerchild.gameObject.GetComponent<MouseRaycast>().isBlink = true;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                foreach (Transform child in this.transform.parent)
+                                {
+                                    if (child != this.transform)
+                                        child.gameObject.GetComponent<MouseRaycast>().isBlink = true;
+                                }
+                            }
 
-                        if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化)
-                        {
-                            ClickObject.script.SetPictureStep4();
-                            已開啟畫筆模式 = false;
+
+                            是否可以對操作區的物件上色 = true;
                         }
                     }
 
-
-                    if (限定畫筆模式)
+                    if (pictureType == PictureType.操作區物件)
                     {
-                        已開啟畫筆模式 = true;
-                    }
-
-
-
-
-                    if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
-                    {
-                        ClickObject.script.SetPictureStep3(MouseTarget);
-                        已開啟畫筆模式 = false;
+                        if (是否可以對操作區的物件上色)
+                        {
+                            if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗)
+                            {
+                                ClickObject.script.SetPictureStep2(MouseTarget);
+                                是否可以對操作區的物件上色 = false;
+                            }
+                            if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
+                            {
+                                ClickObject.script.SetPictureStep3(MouseTarget);
+                                是否可以對操作區的物件上色 = false;
+                            }
+                            if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化)
+                            {
+                                ClickObject.script.SetPictureStep4();
+                                是否可以對操作區的物件上色 = false;
+                            }
+                        }
                     }
                 }
 
             }
         }
+    }
+
+    void changePictureAlpha(float newValue)
+    {
+        this.gameObject.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0.9f - newValue));
+    }
+
+    void OnEnable()
+    {
+        this.isBlink = true;
+    }
+
+    public enum PictureType
+    {
+        潑墨 = 0, 操作區物件 = 1
     }
 }
