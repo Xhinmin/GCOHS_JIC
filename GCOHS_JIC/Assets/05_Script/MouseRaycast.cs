@@ -12,6 +12,7 @@ public class MouseRaycast : MonoBehaviour
     private RaycastHit hit;
     public GameObject MouseTarget;
     public PictureType pictureType;
+    public SetColorBoneAnimation.PictureType 潑墨顏色;
     public bool isBlink;
 
 
@@ -72,13 +73,19 @@ public class MouseRaycast : MonoBehaviour
                 {
                     MouseTarget = hit.transform.gameObject;
 
+
                     if (pictureType == PictureType.潑墨)
                     {
                         if (isBlink)
                         {
                             isBlink = false;
+                            //將其他潑墨閃爍
                             if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
                             {
+
+                                //存下目前要設定的顏色
+                                GameManager.script.設色潑墨顏色 = this.潑墨顏色;
+
                                 foreach (Transform child in this.transform.parent.parent)
                                 {
                                     foreach (Transform innerchild in child)
@@ -96,8 +103,6 @@ public class MouseRaycast : MonoBehaviour
                                         child.gameObject.GetComponent<MouseRaycast>().isBlink = true;
                                 }
                             }
-
-
                             是否可以對操作區的物件上色 = true;
                         }
                     }
@@ -113,6 +118,12 @@ public class MouseRaycast : MonoBehaviour
                             }
                             if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
                             {
+                                //改變操作區操作物件的圖（Animation）
+                                 
+                                SetColorBoneAnimation.script.pictureType = GameManager.script.設色潑墨顏色;
+                                GameManager.script.設色潑墨顏色 = SetColorBoneAnimation.script.pictureType;
+
+                                //改變實際操作物件的圖（Sprite）
                                 ClickObject.script.SetPictureStep3(MouseTarget);
                                 是否可以對操作區的物件上色 = false;
                             }

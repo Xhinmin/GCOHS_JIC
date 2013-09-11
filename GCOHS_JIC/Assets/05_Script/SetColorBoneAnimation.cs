@@ -10,6 +10,7 @@ public class SetColorBoneAnimation : MonoBehaviour
 
     void Start()
     {
+        script = this;
         boneAnimation = this.GetComponent<SmoothMoves.BoneAnimation>();
         boneAnimation.playAutomatically = false;
     }
@@ -19,6 +20,9 @@ public class SetColorBoneAnimation : MonoBehaviour
     {
         switch (pictureType)
         {
+            case PictureType.空:
+                boneAnimation.Play("空");
+                break;
             case PictureType.馬1顏色1:
                 boneAnimation.Play("馬1顏色1");
                 break;
@@ -67,8 +71,10 @@ public class SetColorBoneAnimation : MonoBehaviour
         }
     }
 
+
     public enum PictureType
     {
+        空 = 0,
         馬1顏色1 = 1, 馬1顏色2 = 2, 馬1顏色3 = 3,
         馬2顏色1 = 4, 馬2顏色2 = 5, 馬2顏色3 = 6,
         馬3顏色1 = 7, 馬3顏色2 = 8, 馬3顏色3 = 9,

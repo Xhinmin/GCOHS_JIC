@@ -96,6 +96,12 @@ public class ClickObject : MonoBehaviour
                                 if (this.Target.GetComponent<Step3>()) this.Target.GetComponent<Step3>().enabled = GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色 ? true : false;
                                 if (this.Target.GetComponent<Step4>()) this.Target.GetComponent<Step4>().enabled = GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化 ? true : false;
 
+                                //在設色階段中　將操作區的改變動畫片段
+                                if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
+                                {
+                                    SetColorBoneAnimation.script.pictureType =
+                                        this.Target.GetComponent<Step3>().pictureType;
+                                }
                                 break;
                             }
                         }
@@ -115,8 +121,57 @@ public class ClickObject : MonoBehaviour
     /// </summary>
     public void SetPictureStep3(GameObject ChangeObject)
     {
-        print("改變3");
-        //this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(ChangeObject.GetComponent<SmoothMoves.Sprite>().textureGUID);
+        Target.GetComponent<Step3>().pictureType = GameManager.script.設色潑墨顏色;
+
+        if (Target.gameObject.name == "馬1")
+        {
+            if (SetColorBoneAnimation.script.pictureType == SetColorBoneAnimation.PictureType.馬1顏色1)
+                this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.馬1顏色_GUID[0]);
+            if (SetColorBoneAnimation.script.pictureType == SetColorBoneAnimation.PictureType.馬1顏色2)
+                this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.馬1顏色_GUID[1]);
+            if (SetColorBoneAnimation.script.pictureType == SetColorBoneAnimation.PictureType.馬1顏色3)
+                this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.馬1顏色_GUID[2]);
+        }
+        if (Target.gameObject.name == "馬2")
+        {
+            if (SetColorBoneAnimation.script.pictureType == SetColorBoneAnimation.PictureType.馬2顏色1)
+                this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.馬2顏色_GUID[0]);
+            if (SetColorBoneAnimation.script.pictureType == SetColorBoneAnimation.PictureType.馬2顏色2)
+                this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.馬2顏色_GUID[1]);
+            if (SetColorBoneAnimation.script.pictureType == SetColorBoneAnimation.PictureType.馬2顏色3)
+                this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.馬2顏色_GUID[2]);
+        }
+
+        if (Target.gameObject.name == "馬3")
+        {
+            if (SetColorBoneAnimation.script.pictureType == SetColorBoneAnimation.PictureType.馬3顏色1)
+                this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.馬3顏色_GUID[0]);
+            if (SetColorBoneAnimation.script.pictureType == SetColorBoneAnimation.PictureType.馬3顏色2)
+                this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.馬3顏色_GUID[1]);
+            if (SetColorBoneAnimation.script.pictureType == SetColorBoneAnimation.PictureType.馬3顏色3)
+                this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.馬3顏色_GUID[2]);
+        }
+
+        if (Target.gameObject.name == "樹1")
+        {
+            if (SetColorBoneAnimation.script.pictureType == SetColorBoneAnimation.PictureType.樹1顏色1)
+                this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.樹1顏色_GUID[0]);
+            if (SetColorBoneAnimation.script.pictureType == SetColorBoneAnimation.PictureType.樹1顏色2)
+                this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.樹1顏色_GUID[1]);
+            if (SetColorBoneAnimation.script.pictureType == SetColorBoneAnimation.PictureType.樹1顏色3)
+                this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.樹1顏色_GUID[2]);
+        }
+
+
+        if (Target.gameObject.name == "樹2")
+        {
+            if (SetColorBoneAnimation.script.pictureType == SetColorBoneAnimation.PictureType.樹2顏色1)
+                this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.樹2顏色_GUID[0]);
+            if (SetColorBoneAnimation.script.pictureType == SetColorBoneAnimation.PictureType.樹2顏色2)
+                this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.樹2顏色_GUID[1]);
+            if (SetColorBoneAnimation.script.pictureType == SetColorBoneAnimation.PictureType.樹2顏色3)
+                this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.樹2顏色_GUID[2]);
+        }
         this.Target.GetComponent<PictureInfo>().isUsed = true;
     }
 
@@ -125,7 +180,6 @@ public class ClickObject : MonoBehaviour
     /// </summary>
     public void SetPictureStep2(GameObject ChangeObject)
     {
-        print("改變2");
         isLock = false;
         if (Target.gameObject.name == "馬1")
         {

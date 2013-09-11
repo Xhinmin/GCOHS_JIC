@@ -4,6 +4,7 @@ using System.Collections;
 // 第三步驟 : 設色
 public class Step3 : MonoBehaviour
 {
+    public SetColorBoneAnimation.PictureType pictureType;
     public GameObject 潑墨;
     public GameObject 顏色一;
     public GameObject 顏色二;

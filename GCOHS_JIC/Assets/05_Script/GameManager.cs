@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public Transform scaleLineTop;
     public Transform scaleLineBottom;
 
+    public SetColorBoneAnimation.PictureType 設色潑墨顏色;
 
     public string 馬1_GUID;
     public string 馬2_GUID;
@@ -26,6 +27,15 @@ public class GameManager : MonoBehaviour
     public string 土坡1_GUID;
     public string 土坡2_GUID;
     public string 土坡3_GUID;
+
+    public string[] 馬1顏色_GUID = new string[3];
+    public string[] 馬2顏色_GUID = new string[3];
+    public string[] 馬3顏色_GUID = new string[3];
+    public string[] 樹1顏色_GUID = new string[3];
+    public string[] 樹2顏色_GUID = new string[3];
+    public string[] 土坡1顏色_GUID = new string[3];
+    public string[] 土坡2顏色_GUID = new string[3];
+    public string[] 土坡3顏色_GUID = new string[3];
 
     void Awake()
     {
