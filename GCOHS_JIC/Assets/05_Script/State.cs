@@ -15,13 +15,14 @@ public class State : MonoBehaviour
 
     public GameObject[] 影子;
     public GameObject 光源的控制桿;
+   
 
     public GameObject 第一階段構圖操作區;
     public GameObject 第二階段明暗操作區;
     public GameObject 第三階段設色操作區;
     public GameObject 第四階段淡化操作區;
     public GameObject 第五階段光源操作區;
-
+    public GameObject 操控區背景;
     public GameObject 第一階段構圖操控;
     public GameObject 第二三四階段明暗設色淡化操控;
 
@@ -146,6 +147,7 @@ public class State : MonoBehaviour
                     第二三四階段明暗設色淡化操控.SetActive(true);
                     第五階段光源操作區.SetActive(true);
                     光源的控制桿.SetActive(true);
+                    操控區背景.SetActive(false);
                     foreach (GameObject gameObject in 影子)
                     {
                         gameObject.SetActive(true);

@@ -33,7 +33,7 @@ public class SetColorBoneAnimation : MonoBehaviour
                 boneAnimation.Play("馬1顏色3");
                 break;
             case PictureType.馬2顏色1:
-                boneAnimation.Play("馬1顏色1");
+                boneAnimation.Play("馬2顏色1");
                 break;
             case PictureType.馬2顏色2:
                 boneAnimation.Play("馬2顏色2");

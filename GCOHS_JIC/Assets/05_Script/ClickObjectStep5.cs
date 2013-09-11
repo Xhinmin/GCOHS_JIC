@@ -11,9 +11,9 @@ public class ClickObjectStep5 : MonoBehaviour
     private RaycastHit hit;
     public MouseType currentMouseType;
 
-    public int Center = -510;
-    public int Max = -620;
-    public int Min = -400;
+    public int Center = 0;
+    public int Max = 600;
+    public int Min = -600;
     //是否可以選擇下一個　物件　的鎖定狀態
     public bool isLock;
 
@@ -70,7 +70,7 @@ public class ClickObjectStep5 : MonoBehaviour
                         if (gameObject.activeInHierarchy)
                         {
                             gameObject.transform.localScale = new Vector3(
-                                Mathf.Lerp(1,2F, Mathf.Abs(this.hit.transform.position.x - Center) / 110F),
+                                Mathf.Lerp(1,2F, Mathf.Abs(this.hit.transform.position.x - Center) / 600F),
                                 gameObject.transform.localScale.y,
                                 gameObject.transform.localScale.z);
 
@@ -78,7 +78,7 @@ public class ClickObjectStep5 : MonoBehaviour
                                     Mathf.Lerp(
                                     100,
                                     -100,
-                                     (((this.hit.transform.position.x - Center) / 110F) + 1) / 2F
+                                     (((this.hit.transform.position.x - Center) / 600F) + 1) / 2F
                                     ),
                                 gameObject.transform.localPosition.y,
                                 gameObject.transform.localPosition.z);
