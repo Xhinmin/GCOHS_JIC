@@ -32,26 +32,31 @@ public class AutoDestroyBoneAnimation : MonoBehaviour
             case "構圖":
                 GameManager.script.CurrentDrawStage = GameManager.DrawStage.構圖;
                 GameManager.script.ShowStageHint(GameManager.DrawStage.構圖);
+                GameManager.script.物件區背景.SetActive(true);
                 break;
 
             case "明暗":
                 GameManager.script.CurrentDrawStage = GameManager.DrawStage.明暗;
                 GameManager.script.ShowStageHint(GameManager.DrawStage.明暗);
+                GameManager.script.物件區背景.SetActive(true);
                 break;
 
             case "設色":
                 GameManager.script.CurrentDrawStage = GameManager.DrawStage.設色;
                 GameManager.script.ShowStageHint(GameManager.DrawStage.設色);
+                GameManager.script.物件區背景.SetActive(true);
                 break;
 
             case "淡化":
                 GameManager.script.CurrentDrawStage = GameManager.DrawStage.淡化;
                 GameManager.script.ShowStageHint(GameManager.DrawStage.淡化);
+                GameManager.script.物件區背景.SetActive(true);
                 break;
 
             case "光源":
                 GameManager.script.CurrentDrawStage = GameManager.DrawStage.光源;
                 GameManager.script.ShowStageHint(GameManager.DrawStage.光源);
+                GameManager.script.物件區背景.SetActive(true);
                 break;
         }
 

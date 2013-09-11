@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager script;
 
+    public GameObject 物件區背景;
     public GameObject StageHintObject;
     private GameObject currentStageHintObject;
     public GameObject TitleShowObject;
@@ -19,22 +20,38 @@ public class GameManager : MonoBehaviour
 
     public SetColorBoneAnimation.PictureType 設色潑墨顏色;
 
+    [HideInInspector]
     public string 馬1_GUID;
+    [HideInInspector]
     public string 馬2_GUID;
+    [HideInInspector]
     public string 馬3_GUID;
+    [HideInInspector]
     public string 樹1_GUID;
+    [HideInInspector]
     public string 樹2_GUID;
+    [HideInInspector]
     public string 土坡1_GUID;
+    [HideInInspector]
     public string 土坡2_GUID;
+    [HideInInspector]
     public string 土坡3_GUID;
 
+    [HideInInspector]
     public string[] 馬1顏色_GUID = new string[3];
+    [HideInInspector]
     public string[] 馬2顏色_GUID = new string[3];
+    [HideInInspector]
     public string[] 馬3顏色_GUID = new string[3];
+    [HideInInspector]
     public string[] 樹1顏色_GUID = new string[3];
+    [HideInInspector]
     public string[] 樹2顏色_GUID = new string[3];
+    [HideInInspector]
     public string[] 土坡1顏色_GUID = new string[3];
+    [HideInInspector]
     public string[] 土坡2顏色_GUID = new string[3];
+    [HideInInspector]
     public string[] 土坡3顏色_GUID = new string[3];
 
     void Awake()
@@ -65,6 +82,8 @@ public class GameManager : MonoBehaviour
 
         if (this.currentStageHintObject != null)
             Destroy(this.currentStageHintObject);
+
+        this.物件區背景.SetActive(false);
         this.CurrentDrawStage = DrawStage.等待中;
     }
 
@@ -148,6 +167,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public enum DrawStage : int
     {
-        等待中 = 0, 構圖 = 1, 明暗 = 2, 設色 = 3, 淡化 = 4, 光源 = 5
+        等待中 = 0, 開頭動畫 = 1, 構圖 = 2, 明暗 = 3, 設色 = 4, 淡化 = 5, 光源 = 6
     }
 }
