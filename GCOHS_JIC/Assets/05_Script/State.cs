@@ -15,7 +15,7 @@ public class State : MonoBehaviour
 
     public GameObject[] 影子;
     public GameObject 光源的控制桿;
-   
+
 
     public GameObject 第一階段構圖操作區;
     public GameObject 第二階段明暗操作區;
@@ -49,7 +49,7 @@ public class State : MonoBehaviour
                 }
                 第一階段構圖操控.SetActive(false);
                 第二三四階段明暗設色淡化操控.SetActive(false);
-                
+
                 第二階段明暗操作區.SetActive(false);
                 第三階段設色操作區.SetActive(false);
                 第四階段淡化操作區.SetActive(false);
@@ -172,18 +172,5 @@ public class State : MonoBehaviour
     void changePictureAlphaStep5(float newValue)
     {
         光源的控制桿.gameObject.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0.9f - newValue));
-    }
-
-    void MakeObjectBlinks(float newValue)
-    {
-        foreach (Transform gameobject in brinkGameObjects)
-        {
-            gameObject.gameObject.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0.9f - newValue));
-        }
-    }
-
-    public void SetBrinkGameObjects(Transform[] newBrinkGameObjects)
-    {
-        brinkGameObjects = newBrinkGameObjects;
     }
 }

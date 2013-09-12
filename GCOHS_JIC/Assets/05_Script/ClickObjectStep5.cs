@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-//給光源用的滑鼠拖曳
+//【第五階段】給光源用的滑鼠拖曳
 public class ClickObjectStep5 : MonoBehaviour
 {
     public static ClickObjectStep5 script;
@@ -11,26 +11,26 @@ public class ClickObjectStep5 : MonoBehaviour
     private RaycastHit hit;
     public MouseType currentMouseType;
 
-    public int Center = 0;
-    public int Max = 600;
-    public int Min = -600;
-    //是否可以選擇下一個　物件　的鎖定狀態
-    public bool isLock;
+    public int 物件中心點Center = 0;
+    public int 物件位置Min = -600;
+    public int 物件位置Max = 600;
+    //與中心點的距離
+    private int dis;
 
-    private float originalScaleX;
-    private float originalScaleY;
+    public float 影子Scale倍率_Min = 1;
+    public float 影子Scale倍率_Max = 2;
+    public float 影子Position位置偏移_Min = -100;
+    public float 影子Position位置偏移_Max = 100;
     // Use this for initialization
     void Start()
     {
         script = this;
-        originalScaleX = gameObject.transform.localScale.x;
-        originalScaleY = gameObject.transform.localScale.y;
+        dis = Mathf.Abs(物件中心點Center - 物件位置Min);
     }
 
     // Update is called once per frame
     void Update()
     {
-
         ProcessMouseState();
     }
 
@@ -47,38 +47,42 @@ public class ClickObjectStep5 : MonoBehaviour
                 break;
 
             case MouseType.點擊:
+
+                //通知"下一步"按鈕 可以出現
+                NextButtonController.isCheck4 = true;
+
                 if (Physics.Raycast(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition), new Vector3(0, 0, 1), out hit, 200, this.TargetLayer))
-                {
                     this.currentMouseType = MouseType.拖曳中;
-                }
                 else
                     this.currentMouseType = MouseType.無狀態;
                 break;
 
             case MouseType.拖曳中:
 
+                
                 if (Physics.Raycast(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition), new Vector3(0, 0, 1), out hit, 200, this.TargetLayer))
                 {
-                    //中心點X = -510 間隔 110
+                    //物件拖曳範圍 Min~Max
                     this.hit.transform.position = new Vector3(
-                       Mathf.Max(Mathf.Min(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition).x, Min), Max),
+                       Mathf.Max(Mathf.Min(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition).x, 物件位置Max), 物件位置Min),
                        this.hit.transform.position.y,
                        this.hit.transform.position.z);
 
+                    //物件的影子倍率與位置
                     foreach (GameObject gameObject in State.script.影子)
                     {
                         if (gameObject.activeInHierarchy)
                         {
                             gameObject.transform.localScale = new Vector3(
-                                Mathf.Lerp(1,2F, Mathf.Abs(this.hit.transform.position.x - Center) / 600F),
+                                Mathf.Lerp(影子Scale倍率_Min, 影子Scale倍率_Max, Mathf.Abs(this.hit.transform.position.x - 物件中心點Center) / dis),
                                 gameObject.transform.localScale.y,
                                 gameObject.transform.localScale.z);
 
                             gameObject.transform.localPosition = new Vector3(
                                     Mathf.Lerp(
-                                    100,
-                                    -100,
-                                     (((this.hit.transform.position.x - Center) / 600F) + 1) / 2F
+                                    影子Position位置偏移_Max,
+                                    影子Position位置偏移_Min,
+                                     (((this.hit.transform.position.x - 物件中心點Center) / dis) + 1) / 2F
                                     ),
                                 gameObject.transform.localPosition.y,
                                 gameObject.transform.localPosition.z);
@@ -99,25 +103,6 @@ public class ClickObjectStep5 : MonoBehaviour
 
 
     }
-
-
-
-
-    /// <summary>
-    /// 清空操作區 0904加入
-    /// </summary>
-    public void ClearControlArea()
-    {
-        if (Target)
-        {
-            if (this.Target.GetComponent<Step2>()) this.Target.GetComponent<Step2>().enabled = false;
-            if (this.Target.GetComponent<Step3>()) this.Target.GetComponent<Step3>().enabled = false;
-            if (this.Target.GetComponent<Step4>()) this.Target.GetComponent<Step4>().enabled = false;
-
-        }
-    }
-
-
 
     //定義滑鼠狀態
     public enum MouseType

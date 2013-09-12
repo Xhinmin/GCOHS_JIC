@@ -2,7 +2,7 @@
 using System.Collections;
 
 /// <summary>
-/// OHS專案第二步驟：明暗
+/// OHS專案第二三四步驟：明暗、設色、光影
 /// </summary>
 /// 
 public class ClickObject : MonoBehaviour
@@ -50,6 +50,7 @@ public class ClickObject : MonoBehaviour
 
             case MouseType.放開:
 
+                //多重物件偵測 偵測目標物件是否閃爍 若無則可以獲取
                 hits = Physics.RaycastAll(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition), new Vector3(0, 0, 1), 200, this.TargetLayer);
                 if (hits.Length > 0)
                 {
@@ -58,53 +59,51 @@ public class ClickObject : MonoBehaviour
                         if (hit.transform.gameObject.GetComponent<PictureInfo>().isBlink)
                         {
                             innerHit = hit;
-                            //如果切換圖片後　再解除Lock 才能賦予新的Target [0904更新 不需要Lock]
-                            if (innerHit.transform.gameObject.GetComponent<PictureInfo>().isBlink)
+                            //如果切換圖片後　再解除Lock 才能賦予新的Target
+
+                            //【明暗】與【淡化】部分 鎖定被選定的物件;沒變化前不解鎖
+                            if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗 ||
+                                GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化)
                             {
-                                //【明暗】與【淡化】部分 鎖定被選定的物件;沒變化前不解鎖
-                                if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗 ||
-                                    GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化)
+                                if (!this.isLock)
                                 {
-                                    if (!this.isLock)
-                                    {
-                                        isLock = true;
-                                        ClearControlArea();//清空操作區
-                                        this.Target = innerHit.transform.gameObject;
-                                    }
+                                    isLock = true;
+                                    ClearControlArea();//清空操作區
+                                    this.Target = innerHit.transform.gameObject;
                                 }
-                                //【設色】
-                                else
-                                {
-                                    if (Target)
-                                    {
-                                        this.Target.GetComponent<PictureInfo>().isBlink = true;
-                                        ClearControlArea(); //清空操作區
-                                        if (this.Target.GetComponent<PictureInfo>().isBlink) this.Target = innerHit.transform.gameObject; // 給予新的Target
-                                    }
-                                    else
-                                        this.Target = innerHit.transform.gameObject;
-                                }
-
-
-
-                                //停止閃爍 並將顏色還原
-                                this.Target.GetComponent<PictureInfo>().isBlink = false;
-                                this.Target.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 1));
-
-                                //開啟各階段程式
-                                if (this.Target.GetComponent<Step2>()) this.Target.GetComponent<Step2>().enabled = GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗 ? true : false;
-                                if (this.Target.GetComponent<Step3>()) this.Target.GetComponent<Step3>().enabled = GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色 ? true : false;
-                                if (this.Target.GetComponent<Step4>()) this.Target.GetComponent<Step4>().enabled = GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化 ? true : false;
-
-                                //在設色階段中　將操作區的改變動畫片段
-                                if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
-                                {
-                                    SetColorBoneAnimation.script.pictureType =
-                                        this.Target.GetComponent<Step3>().pictureType;
-                                }
-                                break;
                             }
+                            //【設色】部分 不上鎖
+                            else
+                            {
+                                if (Target)
+                                {
+                                    this.Target.GetComponent<PictureInfo>().isBlink = true;
+                                    ClearControlArea(); //清空操作區
+                                    this.Target = innerHit.transform.gameObject; // 給予新的Target
+                                }
+                                
+                            }
+
+
+
+                            //停止閃爍 並將顏色還原
+                            this.Target.GetComponent<PictureInfo>().isBlink = false;
+                            this.Target.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 1));
+
+                            //開啟各階段程式
+                            if (this.Target.GetComponent<Step2>()) this.Target.GetComponent<Step2>().enabled = GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗 ? true : false;
+                            if (this.Target.GetComponent<Step3>()) this.Target.GetComponent<Step3>().enabled = GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色 ? true : false;
+                            if (this.Target.GetComponent<Step4>()) this.Target.GetComponent<Step4>().enabled = GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化 ? true : false;
+
+                            //在設色階段中　將操作區的改變動畫片段
+                            if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
+                            {
+                                SetColorBoneAnimation.script.pictureType =
+                                    this.Target.GetComponent<Step3>().pictureType;
+                            }
+                            break;
                         }
+
                     }
                 }
 

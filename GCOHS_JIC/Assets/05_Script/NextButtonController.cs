@@ -4,7 +4,7 @@ using System.Collections;
 public class NextButtonController : MonoBehaviour
 {
     private GameObject NextButtonObject;
-
+    public static bool isCheck4 = false;
     // Use this for initialization
     void Start()
     {
@@ -100,6 +100,7 @@ public class NextButtonController : MonoBehaviour
                 break;
 
             case GameManager.DrawStage.光源:
+                this.NextButtonObject.SetActive(isCheck4);
                 break;
         }
 
