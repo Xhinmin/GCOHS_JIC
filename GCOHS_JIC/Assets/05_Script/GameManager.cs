@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public static GameManager script;
 
     public GameObject 物件區背景;
+    public GameObject 現代郎世寧;
     public GameObject StageHintObject;
     private GameObject currentStageHintObject;
     public GameObject TitleShowObject;
@@ -62,8 +63,9 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        //遊戲開始，首先進入構圖狀態
-        this.ChangeDrawStage(DrawStage.構圖);
+        //遊戲開始，首先進入開頭動畫
+        this.ChangeDrawStage(DrawStage.開頭動畫);
+        this.現代郎世寧.SetActive(false);        //將左上"現代郎世寧"暫時關閉
     }
 
     /// <summary>
@@ -72,19 +74,31 @@ public class GameManager : MonoBehaviour
     /// <param name="nextStage">下一階段</param>
     public void ChangeDrawStage(DrawStage nextStage)
     {
-        if (nextStage == DrawStage.等待中 || nextStage > DrawStage.光源)
+        if (nextStage == DrawStage.等待中 || nextStage > DrawStage.截圖)
             return;
+
+        if (this.currentStageHintObject != null)
+            Destroy(this.currentStageHintObject);
+
+        this.物件區背景.SetActive(false);
+
+        if (nextStage == DrawStage.截圖)
+        {
+            this.CurrentDrawStage = DrawStage.截圖;
+            State.script.光源的控制桿.SetActive(false);
+            return;
+        }
 
         GameObject obj = (GameObject)Instantiate(this.TitleShowObject);
         SmoothMoves.BoneAnimation boneAnimation = obj.GetComponent<SmoothMoves.BoneAnimation>();
         boneAnimation.playAutomatically = false;
         boneAnimation.Play(nextStage.ToString());
 
-        if (this.currentStageHintObject != null)
-            Destroy(this.currentStageHintObject);
-
-        this.物件區背景.SetActive(false);
-        this.CurrentDrawStage = DrawStage.等待中;
+        //開頭動畫狀態進行觸碰事件偵測
+        if (nextStage == DrawStage.開頭動畫)
+            this.CurrentDrawStage = DrawStage.開頭動畫;
+        else
+            this.CurrentDrawStage = DrawStage.等待中;
     }
 
     /// <summary>
@@ -167,6 +181,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public enum DrawStage : int
     {
-        等待中 = 0, 開頭動畫 = 1, 構圖 = 2, 明暗 = 3, 設色 = 4, 淡化 = 5, 光源 = 6
+        等待中 = 0, 開頭動畫 = 1, 構圖 = 2, 明暗 = 3, 設色 = 4, 淡化 = 5, 光源 = 6, 截圖 = 7
     }
 }

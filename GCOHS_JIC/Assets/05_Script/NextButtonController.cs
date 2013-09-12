@@ -17,6 +17,8 @@ public class NextButtonController : MonoBehaviour
         switch (GameManager.script.CurrentDrawStage)
         {
             case GameManager.DrawStage.等待中:
+            case GameManager.DrawStage.開頭動畫:
+            case GameManager.DrawStage.截圖:
                 this.NextButtonObject.SetActive(false);
                 break;
 
