@@ -23,6 +23,9 @@ public class SendEmail : MonoBehaviour
         message.Subject = mysubject;//E-mail主旨
         message.Body = msg;//E-mail內容
 
+        Attachment attachment = new Attachment("ScreenCapture.png");//<-這是附件部分~先用附件的物件把路徑指定進去~
+        message.Attachments.Add(attachment);//<-郵件訊息中加入附件
+
         //mail server 內容設定
         SmtpClient smtpClient;
         smtpClient = new SmtpClient("smtp.gmail.com", 587);//gmail smtp設定
