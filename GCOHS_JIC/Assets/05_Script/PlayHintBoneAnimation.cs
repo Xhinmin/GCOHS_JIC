@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayHintBoneAnimation : MonoBehaviour
 {
 
-    public static SetColorBoneAnimation script;
+    public static PlayHintBoneAnimation script;
 
     // Use this for initialization
     private SmoothMoves.BoneAnimation boneAnimation;
@@ -12,6 +12,7 @@ public class PlayHintBoneAnimation : MonoBehaviour
     public AnimationType animationType;
     void Start()
     {
+        script = this;
         boneAnimation = this.GetComponent<SmoothMoves.BoneAnimation>();
         boneAnimation.playAutomatically = false;
     }
@@ -34,6 +35,9 @@ public class PlayHintBoneAnimation : MonoBehaviour
             case AnimationType.操作閃爍潑墨:
                 boneAnimation.Play(AnimationType.操作閃爍潑墨.ToString());
                 break;
+            case AnimationType.拖曳操作畫布:
+                boneAnimation.Play(AnimationType.拖曳操作畫布.ToString());
+                break;
             case AnimationType.空動畫:
                 boneAnimation.Play(AnimationType.空動畫.ToString());
                 break;
@@ -49,6 +53,7 @@ public class PlayHintBoneAnimation : MonoBehaviour
         操作閃爍潑墨 = 1,
         操作閃爍圖片 = 2,
         畫布上方太陽 = 3,
-        空動畫 = 4
+        拖曳操作畫布 = 4,
+        空動畫 = 5
     }
 }
