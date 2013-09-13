@@ -11,12 +11,13 @@ using System.Net.Security;
 /// </summary>
 public class SendEmail : MonoBehaviour
 {
-    public void RunSendEmail(string msg = "測試內容", string mysubject = "測試主旨標題", string address = "dk781020@hotmail.com")
+    public void RunSendEmail(string msg = "測試內容", string mysubject = "測試主旨標題", string address = "joey514111@hotmail.com")
     {
         //Mail 內容設定(未完成)
-        MailMessage message = new MailMessage("dk781020@hotmail.com", address);//MailMessage(寄信者, 收信者)
+        MailAddress senderAddress = new MailAddress("", "測試");
+        MailAddress receiverAddress = new MailAddress(address, "測試名子");
+        MailMessage message = new MailMessage(senderAddress, receiverAddress);//MailMessage(寄信者, 收信者)
         message.IsBodyHtml = true;
-
         message.SubjectEncoding = Encoding.UTF8;//標題編碼
         message.BodyEncoding = Encoding.UTF8;//內容編碼
 
@@ -32,6 +33,7 @@ public class SendEmail : MonoBehaviour
         smtpClient.Credentials = (ICredentialsByHost)new NetworkCredential("hahamiror@gmail.com", "hahamiror123");//gmail 帳密
         smtpClient.EnableSsl = true;//打開ssl
 
+        
         //設定安全機制(必須設定否則無法發送)
         ServicePointManager.ServerCertificateValidationCallback =
                 delegate(object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
