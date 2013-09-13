@@ -15,6 +15,10 @@ public class SendEmail : MonoBehaviour
     public bool isComplete = false;
     public string receiverAddress;  //收件mail adress
 
+    public Rect WindowRect;
+    public Rect TextRect;
+    public GUIStyle style;
+
     public void RunSendEmail()
     {
         //Mail 內容設定
@@ -68,5 +72,21 @@ public class SendEmail : MonoBehaviour
         {
             this.RunSendEmail();
         }
+    }
+
+    void OnGUI()
+    {
+        //使用GUI視窗
+        GUI.Window(0, new Rect(this.WindowRect.x * Screen.width, this.WindowRect.y * Screen.height, this.WindowRect.width * Screen.width, this.WindowRect.height * Screen.height), this.DoMyWindow, "Mail 輸入框");
+    }
+
+    /// <summary>
+    /// GUI 視窗
+    /// </summary>
+    /// <param name="windowID"></param>
+    void DoMyWindow(int windowID)
+    {
+        //視窗中加入Mail輸入框
+        this.receiverAddress = GUI.TextField(new Rect(this.TextRect.x, this.TextRect.y, this.WindowRect.width * Screen.width, this.WindowRect.height * Screen.height), this.receiverAddress, this.style);
     }
 }
