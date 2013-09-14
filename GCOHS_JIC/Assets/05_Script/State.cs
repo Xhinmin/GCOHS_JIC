@@ -25,6 +25,7 @@ public class State : MonoBehaviour
     public GameObject 操控區背景;
     public GameObject 第一階段構圖操控;
     public GameObject 第二三四階段明暗設色淡化操控;
+    public GameObject 第五階段光源操控;
 
     private Transform[] brinkGameObjects;
     // Use this for initialization
@@ -55,7 +56,16 @@ public class State : MonoBehaviour
                 第四階段淡化操作區.SetActive(false);
                 第五階段光源操作區.SetActive(false);
 
-                if (ClickObject.script) ClickObject.script.currentMouseType = ClickObject.MouseType.無狀態;
+                if (ClickObject.script)
+                {
+                    ClickObject.script.HintAnimationisInit = true;
+                    ClickObject.script.currentMouseType = ClickObject.MouseType.初始播放引導動畫;
+                }
+
+                //每階段動畫引導的初始化
+                PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.空動畫;
+                PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
+              
                 break;
 
             case GameManager.DrawStage.構圖:
@@ -144,7 +154,7 @@ public class State : MonoBehaviour
                 if (!光源初始化)
                 {
                     光源初始化 = true;
-                    第二三四階段明暗設色淡化操控.SetActive(true);
+                    第五階段光源操控.SetActive(true);
                     第五階段光源操作區.SetActive(true);
                     光源的控制桿.SetActive(true);
                     操控區背景.SetActive(false);

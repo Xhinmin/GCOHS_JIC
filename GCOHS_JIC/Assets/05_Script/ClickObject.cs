@@ -12,12 +12,14 @@ public class ClickObject : MonoBehaviour
     public LayerMask TargetLayer;
     private GameObject Target;
     private RaycastHit[] hits;
-    public MouseType currentMouseType;
+    public MouseType currentMouseType = MouseType.初始播放引導動畫;
     RaycastHit innerHit;
 
     //是否可以選擇下一個　物件　的鎖定狀態
     public bool isLock;
 
+    //提示動畫初始化
+    public bool HintAnimationisInit = true;
     // Use this for initialization
     void Start()
     {
@@ -38,6 +40,19 @@ public class ClickObject : MonoBehaviour
     {
         switch (this.currentMouseType)
         {
+            case MouseType.初始播放引導動畫:
+
+                if (ClickObject.script.HintAnimationisInit)
+                {
+                    //播放引導動畫
+                    if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗)    PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.指向引導_馬樹類;
+                    if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化)    PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.指向引導_土坡類;                
+                    PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.畫布閃爍圖片;
+                }
+
+                this.currentMouseType = MouseType.無狀態;
+                break;
+
             case MouseType.無狀態:
                 if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse1))
                     this.currentMouseType = MouseType.點擊;
@@ -50,6 +65,7 @@ public class ClickObject : MonoBehaviour
 
             case MouseType.放開:
 
+
                 //多重物件偵測 偵測目標物件是否閃爍 若無則可以獲取
                 hits = Physics.RaycastAll(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition), new Vector3(0, 0, 1), 200, this.TargetLayer);
                 if (hits.Length > 0)
@@ -58,6 +74,13 @@ public class ClickObject : MonoBehaviour
                     {
                         if (hit.transform.gameObject.GetComponent<PictureInfo>().isBlink)
                         {
+                            //改變動畫 - > 操作區潑墨
+                            if (ClickObject.script.HintAnimationisInit)
+                            {
+                                PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.指向引導_操作區潑墨;
+                                PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.操作閃爍潑墨;
+                            }
+
                             innerHit = hit;
                             //如果切換圖片後　再解除Lock 才能賦予新的Target
 
@@ -81,7 +104,7 @@ public class ClickObject : MonoBehaviour
                                     ClearControlArea(); //清空操作區
                                     this.Target = innerHit.transform.gameObject; // 給予新的Target
                                 }
-                                
+
                             }
 
 
@@ -265,6 +288,6 @@ public class ClickObject : MonoBehaviour
     //定義滑鼠狀態
     public enum MouseType
     {
-        無狀態 = 0, 點擊 = 1, 放開 = 3
+        無狀態 = 0, 點擊 = 1, 放開 = 3, 初始播放引導動畫 = 4
     }
 }

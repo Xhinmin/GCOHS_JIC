@@ -34,6 +34,7 @@ public class MouseRaycast : MonoBehaviour
             {
                 // 處理潑墨部分的閃爍
                 case MouseRaycast.PictureType.潑墨:
+
                     if (!GetComponent<iTween>() && this.isBlink)
                     {
                         this.gameObject.GetComponent<SmoothMoves.Sprite>().color = new Color(1, 1, 1, 1);
@@ -76,16 +77,25 @@ public class MouseRaycast : MonoBehaviour
 
                     if (pictureType == PictureType.潑墨)
                     {
+                        //引導動畫部分
+                        if (ClickObject.script.HintAnimationisInit)
+                        {
+                            PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.指向引導_操作區物件;
+                            PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.操作閃爍圖片;
+                        }
+
+
                         if (isBlink)
                         {
                             isBlink = false;
+
                             //將其他潑墨閃爍
                             if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
                             {
-
                                 //存下目前要設定的顏色
                                 GameManager.script.設色潑墨顏色 = this.潑墨顏色;
 
+                                //將其他潑墨閃爍
                                 foreach (Transform child in this.transform.parent.parent)
                                 {
                                     foreach (Transform innerchild in child)
@@ -119,7 +129,7 @@ public class MouseRaycast : MonoBehaviour
                             if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
                             {
                                 //改變操作區操作物件的圖（Animation）
-                                 
+
                                 SetColorBoneAnimation.script.pictureType = GameManager.script.設色潑墨顏色;
                                 GameManager.script.設色潑墨顏色 = SetColorBoneAnimation.script.pictureType;
 
@@ -132,6 +142,13 @@ public class MouseRaycast : MonoBehaviour
                                 ClickObject.script.SetPictureStep4();
                                 是否可以對操作區的物件上色 = false;
                             }
+
+
+                            //已經引導過第一次的手指動畫 第二次將消失
+                            ClickObject.script.HintAnimationisInit = false;
+                            PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
+                            PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.空動畫;
+
                         }
                     }
                 }

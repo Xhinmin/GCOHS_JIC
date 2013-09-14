@@ -16,7 +16,7 @@ public class PickObject : MonoBehaviour
 
     private GameObject Target;
 
-    private MouseType currentMouseType;
+    private MouseType currentMouseType = MouseType.初始播放引導動畫;
     private PictureInfo.PictureType currentPictureType;
 
     //按下累積時間
@@ -41,12 +41,20 @@ public class PickObject : MonoBehaviour
     {
         switch (this.currentMouseType)
         {
+            case MouseType.初始播放引導動畫:
+                //播放引導動畫
+                PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.拖曳引導;
+                PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.拖曳操作畫布;
+                this.currentMouseType = MouseType.無狀態;
+                break;
+
             case MouseType.無狀態:
                 if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse1))
                     this.currentMouseType = MouseType.點擊;
                 break;
 
             case MouseType.點擊:
+              
                 if (Physics.Raycast(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition), new Vector3(0, 0, 1), out this.hit, 100, this.TargetLayer))
                 {
                     this.clickTime += Time.deltaTime;
@@ -73,6 +81,8 @@ public class PickObject : MonoBehaviour
                         this.currentPictureType = this.Target.GetComponent<PictureInfo>().Type;
                         this.currentMouseType = MouseType.拖曳中;
                     }
+                    //取消手指動畫
+                    PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
                 }
 
                 break;
@@ -168,6 +178,6 @@ public class PickObject : MonoBehaviour
     //定義滑鼠狀態
     public enum MouseType
     {
-        無狀態 = 0, 點擊 = 1, 拖曳中 = 2, 放開 = 3
+        無狀態 = 0, 點擊 = 1, 拖曳中 = 2, 放開 = 3, 初始播放引導動畫 = 4
     }
 }

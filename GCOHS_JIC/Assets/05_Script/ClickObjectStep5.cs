@@ -41,6 +41,13 @@ public class ClickObjectStep5 : MonoBehaviour
     {
         switch (this.currentMouseType)
         {
+            case MouseType.初始播放引導動畫:
+                    //播放引導動畫
+                    PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.太陽引導;
+                    PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.畫布上方太陽;
+                this.currentMouseType = MouseType.無狀態;
+                break;
+
             case MouseType.無狀態:
                 if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse1))
                     this.currentMouseType = MouseType.點擊;
@@ -59,9 +66,13 @@ public class ClickObjectStep5 : MonoBehaviour
 
             case MouseType.拖曳中:
 
-                
+
                 if (Physics.Raycast(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition), new Vector3(0, 0, 1), out hit, 200, this.TargetLayer))
                 {
+                    //關閉手指動畫
+                    PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
+
+
                     //物件拖曳範圍 Min~Max
                     this.hit.transform.position = new Vector3(
                        Mathf.Max(Mathf.Min(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition).x, 物件位置Max), 物件位置Min),
@@ -107,6 +118,6 @@ public class ClickObjectStep5 : MonoBehaviour
     //定義滑鼠狀態
     public enum MouseType
     {
-        無狀態 = 0, 點擊 = 1, 拖曳中 = 2, 放開 = 3
+        無狀態 = 0, 點擊 = 1, 拖曳中 = 2, 放開 = 3, 初始播放引導動畫 = 4
     }
 }
