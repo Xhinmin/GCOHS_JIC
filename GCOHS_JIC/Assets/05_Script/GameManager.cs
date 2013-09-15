@@ -86,6 +86,7 @@ public class GameManager : MonoBehaviour
         {
             this.CurrentDrawStage = DrawStage.截圖;
             State.script.光源的控制桿.SetActive(false);
+            ScreenShot.script.RunScreenCapture();
             return;
         }
 

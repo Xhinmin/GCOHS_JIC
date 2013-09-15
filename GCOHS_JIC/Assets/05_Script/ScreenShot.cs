@@ -36,5 +36,7 @@ public class ScreenShot : MonoBehaviour
         }
         this.imagePath = this.imagePath + "/ScreenCapture.png";
         print(this.imagePath);
+
+        SendEmail.script.UIEnable = true;
     }
 }

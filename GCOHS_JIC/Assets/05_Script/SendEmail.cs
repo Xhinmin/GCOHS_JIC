@@ -11,8 +11,10 @@ using System.Net.Security;
 /// </summary>
 public class SendEmail : MonoBehaviour
 {
+    public static SendEmail script;
+
     [HideInInspector]
-    public bool isComplete = false;
+    public bool UIEnable = false;
     public string receiverAddress;  //收件mail adress
 
     public Rect WindowRect;
@@ -50,19 +52,24 @@ public class SendEmail : MonoBehaviour
 
         //寄送mail
         smtpClient.SendAsync(message, "Send");//寄送
+
+        this.UIEnable = false;
     }
 
     //完成寄信後的callback function
     void smtp_SendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
     {
-        this.isComplete = true;
-
         //假如有錯誤
         if (e.Error.Message.Length > 0)
         {
             print(e.Error.Message);
-            this.isComplete = false;
+
         }
+    }
+
+    void Awake()
+    {
+        script = this;
     }
 
     // Update is called once per frame
@@ -77,7 +84,8 @@ public class SendEmail : MonoBehaviour
     void OnGUI()
     {
         //使用GUI視窗
-        GUI.Window(0, new Rect(this.WindowRect.x * Screen.width, this.WindowRect.y * Screen.height, this.WindowRect.width * Screen.width, this.WindowRect.height * Screen.height), this.DoMyWindow, "Mail 輸入框");
+        if (this.UIEnable)
+            GUI.Window(0, new Rect(this.WindowRect.x * Screen.width, this.WindowRect.y * Screen.height, this.WindowRect.width * Screen.width, this.WindowRect.height * Screen.height), this.DoMyWindow, "Mail 輸入框");
     }
 
     /// <summary>
