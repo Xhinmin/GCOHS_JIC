@@ -24,6 +24,13 @@ public class ScreenShot : MonoBehaviour
 
     public void RunScreenCapture()
     {
+        StartCoroutine(SC());
+    }
+
+    IEnumerator SC()
+    {
+        yield return new WaitForSeconds(0.1f);
+
         Application.CaptureScreenshot("ScreenCapture.png");
         if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
             this.imagePath = Application.persistentDataPath;
@@ -37,6 +44,9 @@ public class ScreenShot : MonoBehaviour
         this.imagePath = this.imagePath + "/ScreenCapture.png";
         print(this.imagePath);
 
+        yield return new WWW(this.imagePath);
+
         SendEmail.script.UIEnable = true;
+        GameManager.script.CurrentDrawStage = GameManager.DrawStage.寄信;
     }
 }
