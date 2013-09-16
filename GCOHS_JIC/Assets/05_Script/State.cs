@@ -44,6 +44,7 @@ public class State : MonoBehaviour
                 //圖片閃爍中止
                 foreach (var pi in 圖案物件.GetComponentsInChildren<PictureInfo>())
                 {
+                    if (!pi.isUsed) pi.gameObject.SetActive(false);
                     pi.isBlink = false;
                     pi.gameObject.GetComponent<SmoothMoves.Sprite>().color = new Color(1, 1, 1, 1);
                     pi.GetComponent<SmoothMoves.Sprite>().UpdateArrays();
@@ -55,6 +56,7 @@ public class State : MonoBehaviour
                 第三階段設色操作區.SetActive(false);
                 第四階段淡化操作區.SetActive(false);
                 第五階段光源操作區.SetActive(false);
+ 
 
                 if (ClickObject.script)
                 {
@@ -164,6 +166,10 @@ public class State : MonoBehaviour
                         iTween.ValueTo(光源的控制桿, iTween.Hash("name", "PickObject", "from", 1, "to", 0.2, "time", 0.5, "loopType", "pingPong", "onupdatetarget", this.gameObject, "onupdate", "changePictureAlphaStep5"));
                     }
                 }
+                break;
+
+            case GameManager.DrawStage.截圖:
+                PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.空動畫;
                 break;
         }
     }

@@ -45,7 +45,7 @@ public class ClickObject : MonoBehaviour
                 if (ClickObject.script.HintAnimationisInit)
                 {
                     //播放引導動畫
-                    if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗)    PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.指向引導_馬樹類;
+                    if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗 || GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色) PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.指向引導_馬樹類;
                     if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化)    PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.指向引導_土坡類;                
                     PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.畫布閃爍圖片;
                 }
