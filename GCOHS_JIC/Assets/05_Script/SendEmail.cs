@@ -21,6 +21,8 @@ public class SendEmail : MonoBehaviour
     public Rect TextRect;
     public GUIStyle style;
 
+    private bool isLoadScene;
+
     public void RunSendEmail()
     {
         //Mail 內容設定
@@ -59,7 +61,7 @@ public class SendEmail : MonoBehaviour
     //完成寄信後的callback function
     void smtp_SendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
     {
-        Application.LoadLevelAsync(Application.loadedLevelName);
+        this.isLoadScene = true;
 
         //假如有錯誤
         if (e.Error.Message.Length > 0)
@@ -71,6 +73,7 @@ public class SendEmail : MonoBehaviour
     void Awake()
     {
         script = this;
+        this.isLoadScene = false;
     }
 
     // Update is called once per frame
@@ -80,6 +83,12 @@ public class SendEmail : MonoBehaviour
         {
             print(Application.loadedLevelName);
             this.RunSendEmail();
+        }
+
+        if (this.isLoadScene)
+        {
+            this.isLoadScene = false;
+            Application.LoadLevelAsync(Application.loadedLevelName);
         }
     }
 
