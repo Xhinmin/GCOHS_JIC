@@ -34,7 +34,7 @@ public class SendEmail : MonoBehaviour
         message.Subject = "現代郎世寧-百駿圖";           //E-mail主旨
         message.Body = "感謝使用現代郎世寧-百駿圖，附件為您設計的百駿圖";                  //E-mail內容
 
-        Attachment attachment = new Attachment("ScreenCapture.png");//<-這是附件部分~先用附件的物件把路徑指定進去~
+        Attachment attachment = new Attachment(ScreenShot.script.imagePath);//<-這是附件部分~先用附件的物件把路徑指定進去~
         message.Attachments.Add(attachment);//<-郵件訊息中加入附件
 
         //mail server 內容設定
