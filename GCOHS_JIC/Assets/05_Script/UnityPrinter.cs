@@ -13,7 +13,7 @@ public class UnityPrinter : MonoBehaviour
     public Texture2D texture2D;
     public Image image;
     private string path;
-
+    private WWW www;
     // Use this for initialization
     void Start()
     {
@@ -23,44 +23,55 @@ public class UnityPrinter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if (Input.GetKeyDown(KeyCode.P))
-           TextureProcess();
+        if (Input.GetKeyDown(KeyCode.P))
+            TextureProcess();
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            PrintDocument pd = new PrintDocument();
+            pd.DefaultPageSettings.Landscape = false;
+            pd.PrintPage += new PrintPageEventHandler(PrintImage);
+           // pd.Print();
+            pd.Print();
+        }
+
     }
 
     void TextureProcess()
     {
-        print(ScreenShot.script.imagePath);
-        WWW www = new WWW("file://" + ScreenShot.script.imagePath);
-        texture2D = www.texture;
+        StartCoroutine(GetTextureFromWWW());
+    }
+
+    IEnumerator GetTextureFromWWW()
+    {
+        www = new WWW("file://" + ScreenShot.script.imagePath);
+
+        while (!www.isDone)
+            yield return www;
+
+        //texture2D = www.bytes;
         //改變圖片的格式與可讀取狀態
-        ChangeTexture2D_Writable_Format(www.texture);
+        //ChangeTexture2D_Writable_Format(www.texture);
         //Texture2D 轉成 Image
         image = Texture2Image(www.texture);
     }
 
-    //void PrintImage(object o, PrintPageEventArgs e)
-    //{
-    //    int x = SystemInformation.WorkingArea.X;
-    //    int y = SystemInformation.WorkingArea.Y;
-    //    int width = this.Width;
-    //    int height = this.Height;
+    void PrintImage(object o, PrintPageEventArgs e)
+    {
+        int x = 0;
+        int y = 0;
+        int width = www.texture.width;
+        int height = www.texture.height;
 
-    //    Rectangle bounds = new Rectangle(x, y, width, height);
+        Rectangle bounds = new Rectangle(x, y, width, height);
 
-    //    Bitmap img = new Bitmap(width, height);
+        Bitmap img = new Bitmap(width, height);
 
-    //    //this.DrawToBitmap(img, bounds);
-    //    Point p = new Point(100, 100);
-    //    e.Graphics.DrawImage(img, p);
-    //}
+        //this.DrawToBitmap(img, bounds);
+        Point p = new Point(0, 0);
+        e.Graphics.DrawImage(Texture2Image(www.texture),p);
+    }
 
-    //private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
-    //{
-    //    //列印圖片
-    //    e.Graphics.DrawImage(pictureBox1.Image, 160, 20, 250, 100);
-    //    //列印文字
-    //    e.Graphics.DrawString(textBox1.Text, textBox1.Font, new SolidBrush(Color.Black), new Point(50, 50));
-    //}
+
 
     /// <summary>
     /// 改變圖片的格式與可讀取狀態
@@ -69,13 +80,13 @@ public class UnityPrinter : MonoBehaviour
     private void ChangeTexture2D_Writable_Format(Texture2D texture2D)
     {
         string path = AssetDatabase.GetAssetPath(texture2D);
-        TextureImporter ti = (TextureImporter)TextureImporter.GetAtPath(path);
+        TextureImporter ti = (TextureImporter)TextureImporter.GetAtPath(ScreenShot.script.imagePath);
         ti.isReadable = true;
         ti.textureFormat = TextureImporterFormat.RGBA32;
         AssetDatabase.ImportAsset(path);
     }
-    
-    
+
+
     /// <summary>
     /// Unity Texture2D 轉成 Image 資料結構
     /// </summary>
@@ -88,7 +99,7 @@ public class UnityPrinter : MonoBehaviour
         {
             return null;
         }
-        byte[] bytes = texture2D.EncodeToPNG();
+        byte[] bytes = www.texture.EncodeToPNG();
         MemoryStream ms = new MemoryStream(bytes);
         ms.Seek(0, SeekOrigin.Begin);
         Image bmp2 = System.Drawing.Bitmap.FromStream(ms);
