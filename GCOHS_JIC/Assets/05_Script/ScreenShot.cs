@@ -5,7 +5,7 @@ public class ScreenShot : MonoBehaviour
 {
     public static ScreenShot script;
 
-    private string imagePath;
+    public string imagePath;
 
     // Use this for initialization
     void Awake()
