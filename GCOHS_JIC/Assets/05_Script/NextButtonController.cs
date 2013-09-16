@@ -17,9 +17,8 @@ public class NextButtonController : MonoBehaviour
         switch (GameManager.script.CurrentDrawStage)
         {
             case GameManager.DrawStage.等待中:
-            case GameManager.DrawStage.開頭動畫:
-            case GameManager.DrawStage.截圖:
-                this.NextButtonObject.SetActive(false);
+            case GameManager.DrawStage.開頭動畫: 
+            this.NextButtonObject.SetActive(false);
                 break;
 
             case GameManager.DrawStage.構圖:
@@ -103,6 +102,10 @@ public class NextButtonController : MonoBehaviour
 
             case GameManager.DrawStage.光源:
                 this.NextButtonObject.SetActive(isCheck4);
+                break;
+
+            case GameManager.DrawStage.寄信:
+                this.NextButtonObject.SetActive(true);
                 break;
         }
 

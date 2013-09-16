@@ -59,11 +59,12 @@ public class SendEmail : MonoBehaviour
     //完成寄信後的callback function
     void smtp_SendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
     {
+        Application.LoadLevelAsync(Application.loadedLevelName);
+
         //假如有錯誤
         if (e.Error.Message.Length > 0)
         {
             print(e.Error.Message);
-
         }
     }
 
@@ -77,6 +78,7 @@ public class SendEmail : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
+            print(Application.loadedLevelName);
             this.RunSendEmail();
         }
     }
@@ -85,7 +87,7 @@ public class SendEmail : MonoBehaviour
     {
         //使用GUI視窗
         if (this.UIEnable)
-            GUI.Window(0, new Rect(this.WindowRect.x * Screen.width, this.WindowRect.y * Screen.height, this.WindowRect.width * Screen.width, this.WindowRect.height * Screen.height), this.DoMyWindow, "Mail 輸入框");
+            GUI.Window(0, new Rect(this.WindowRect.x * Screen.width, this.WindowRect.y * Screen.height, this.WindowRect.width * Screen.width, this.WindowRect.height * Screen.height), this.DoMyWindow, "請輸入E-mail");
     }
 
     /// <summary>

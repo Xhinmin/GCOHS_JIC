@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
     /// <param name="nextStage">下一階段</param>
     public void ChangeDrawStage(DrawStage nextStage)
     {
-        if (nextStage == DrawStage.等待中 || nextStage > DrawStage.截圖)
+        if (nextStage == DrawStage.等待中)
             return;
 
         if (this.currentStageHintObject != null)
@@ -82,10 +82,11 @@ public class GameManager : MonoBehaviour
 
         this.物件區背景.SetActive(false);
 
-        if (nextStage == DrawStage.截圖)
+        if (nextStage == DrawStage.寄信)
         {
-            this.CurrentDrawStage = DrawStage.截圖;
+            this.CurrentDrawStage = DrawStage.等待中;
             State.script.光源的控制桿.SetActive(false);
+            PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.空動畫; //關閉提示(截圖要清空畫面)
             ScreenShot.script.RunScreenCapture();
             return;
         }
@@ -182,6 +183,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public enum DrawStage : int
     {
-        等待中 = 0, 開頭動畫 = 1, 構圖 = 2, 明暗 = 3, 設色 = 4, 淡化 = 5, 光源 = 6, 截圖 = 7
+        等待中 = 0, 開頭動畫 = 1, 構圖 = 2, 明暗 = 3, 設色 = 4, 淡化 = 5, 光源 = 6, 寄信 = 7, 簽名 = 8, 列印 = 9, 結束 = 10
     }
 }
