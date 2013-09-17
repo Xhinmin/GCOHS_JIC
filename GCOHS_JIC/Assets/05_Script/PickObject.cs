@@ -69,6 +69,7 @@ public class PickObject : MonoBehaviour
                             return;
                         }
 
+                        if(!this.GetComponent<iTween>())
                         iTween.ValueTo(this.gameObject, iTween.Hash(
                                "name", "PickObject",
                                "from", 1,
@@ -110,7 +111,7 @@ public class PickObject : MonoBehaviour
                 break;
 
             case MouseType.放開:
-                iTween.StopByName("PickObject");
+                //iTween.StopByName("PickObject");
 
                 this.Target.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 1));
 
