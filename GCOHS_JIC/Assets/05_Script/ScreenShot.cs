@@ -43,6 +43,16 @@ public class ScreenShot : MonoBehaviour
         {
             System.Diagnostics.Process.Start("C:/Program Files/Common Files/microsoft shared/ink/TabTip.exe");
         }
+
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            Time.timeScale = 1;
+        }
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            Time.timeScale = 10;
+        }
     }
 
     public void RunScreenCapture()
@@ -57,12 +67,14 @@ public class ScreenShot : MonoBehaviour
         System.DateTime currentTime = System.DateTime.Now;
         string fileName = currentTime.Year + "_" + currentTime.Month + "_" + currentTime.Day + "_" + currentTime.Hour + "_" + currentTime.Minute + "_" + currentTime.Second + "_" + currentTime.Millisecond + ".png";
         this.imagePath = Path.Combine(this.imagePath, fileName);
+        this.imagePath = imagePath.Replace(@"/", @"\");
 
         Application.CaptureScreenshot(this.imagePath);
 
-        print(this.imagePath);
+        //print(this.imagePath);
 
-        yield return new WWW(this.imagePath);
+        while (!File.Exists(this.imagePath))
+            yield return null;
 
         SendEmail.script.UIEnable = true;
         GameManager.script.CurrentDrawStage = GameManager.DrawStage.寄信;
