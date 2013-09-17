@@ -90,6 +90,7 @@ public class State : MonoBehaviour
                         {
                             if (pi.Type == PictureInfo.PictureType.馬 || pi.Type == PictureInfo.PictureType.樹)
                             {
+                                pi.isUsed = false;
                                 pi.isBlink = true;
                                 if (!pi.GetComponent<iTween>())
                                     iTween.ValueTo(pi.gameObject, iTween.Hash("name", "PickObject", "from", 1, "to", 0.2, "time", 0.5, "loopType", "pingPong", "onupdatetarget", this.gameObject, "onupdate", "changePictureAlpha"));
@@ -115,6 +116,7 @@ public class State : MonoBehaviour
                         {
                             if (pi.Type == PictureInfo.PictureType.馬 || pi.Type == PictureInfo.PictureType.樹)
                             {
+                                pi.isUsed = false;
                                 pi.isBlink = true;
                                 if (!pi.GetComponent<iTween>())
                                     iTween.ValueTo(pi.gameObject, iTween.Hash("name", "PickObject", "from", 1, "to", 0.2, "time", 0.5, "loopType", "pingPong", "onupdatetarget", this.gameObject, "onupdate", "changePictureAlpha"));
@@ -139,6 +141,7 @@ public class State : MonoBehaviour
                         {
                             if (pi.Type == PictureInfo.PictureType.土坡)
                             {
+                                pi.isUsed = false;
                                 pi.isBlink = true;
                                 if (!pi.GetComponent<iTween>())
                                     iTween.ValueTo(pi.gameObject, iTween.Hash("name", "PickObject", "from", 1, "to", 0.2, "time", 0.5, "loopType", "pingPong", "onupdatetarget", this.gameObject, "onupdate", "changePictureAlpha"));

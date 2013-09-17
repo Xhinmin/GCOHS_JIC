@@ -61,8 +61,12 @@ public class NextButtonDetect : MonoBehaviour
                         break;
                     case GameManager.DrawStage.明暗:
                         GameManager.script.ChangeDrawStage(GameManager.DrawStage.設色);
+
                         break;
                     case GameManager.DrawStage.設色:
+                        //當轉到淡化階段時 由於設色可以不必要所有物件都做設定 ， 故所以在點 下一步時 將使用狀態=true
+                        foreach (var pi in State.script.圖案物件.GetComponentsInChildren<PictureInfo>())
+                            pi.isUsed = true;
                         GameManager.script.ChangeDrawStage(GameManager.DrawStage.淡化);
                         break;
                     case GameManager.DrawStage.淡化:
