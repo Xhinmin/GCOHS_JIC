@@ -38,6 +38,11 @@ public class ScreenShot : MonoBehaviour
         {
             this.RunScreenCapture();
         }
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            System.Diagnostics.Process.Start("C:/Program Files/Common Files/microsoft shared/ink/TabTip.exe");
+        }
     }
 
     public void RunScreenCapture()
