@@ -38,7 +38,7 @@ public class MouseRaycast : MonoBehaviour
                     if (!GetComponent<iTween>() && this.isBlink)
                     {
                         this.gameObject.GetComponent<SmoothMoves.Sprite>().color = new Color(1, 1, 1, 1);
-                        iTween.ValueTo(this.gameObject, iTween.Hash("from", 1, "to", 0.2, "time", 0.5, "loopType", "pingPong", "onupdate", "changePictureAlpha"));
+                        iTween.ValueTo(this.gameObject, iTween.Hash("from",0.6, "to", 0, "time", 1.0, "loopType", "pingPong", "onupdate", "changePictureAlpha"));
                     }
                     else if (!this.isBlink)
                     {
@@ -159,7 +159,7 @@ public class MouseRaycast : MonoBehaviour
 
     void changePictureAlpha(float newValue)
     {
-        this.gameObject.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0.9f - newValue));
+        this.gameObject.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 1f - newValue));
     }
 
     void OnEnable()
