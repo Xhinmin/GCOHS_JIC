@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEditor;
 using System.Collections;
 using System.Drawing;
 using System.Drawing.Printing;
@@ -8,7 +7,6 @@ using System.Text;
 
 public class UnityPrinter : MonoBehaviour
 {
-
     public static UnityPrinter script;
     private WWW www;
 
@@ -89,18 +87,18 @@ public class UnityPrinter : MonoBehaviour
     }
     #endregion
 
-    /// <summary>
-    /// 改騙圖片權限
-    /// </summary>
-    /// <param name="texture2D">圖片</param>
-    private void Texture2D_Writable_Format(Texture2D texture2D)
-    {
-        string path = AssetDatabase.GetAssetPath(texture2D);
-        TextureImporter ti = (TextureImporter)TextureImporter.GetAtPath(path);
-        ti.isReadable = true;
-        ti.textureFormat = TextureImporterFormat.RGBA32;
-        AssetDatabase.ImportAsset(path);
-    }
+    ///// <summary>
+    ///// 改騙圖片權限
+    ///// </summary>
+    ///// <param name="texture2D">圖片</param>
+    //private void Texture2D_Writable_Format(Texture2D texture2D)
+    //{
+    //    string path = AssetDatabase.GetAssetPath(texture2D);
+    //    TextureImporter ti = (TextureImporter)TextureImporter.GetAtPath(path);
+    //    ti.isReadable = true;
+    //    ti.textureFormat = TextureImporterFormat.RGBA32;
+    //    AssetDatabase.ImportAsset(path);
+    //}
 
 
     /// <summary>
