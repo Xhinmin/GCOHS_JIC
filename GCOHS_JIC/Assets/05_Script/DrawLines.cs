@@ -62,12 +62,12 @@ public class DrawLines : MonoBehaviour
         if (this.簽名範圍.左上 != null && this.簽名範圍.右下 != null)
         {
             //顯示左上、右下兩點
-            Gizmos.color = Color.yellow;
+            Gizmos.color = Color.blue;
             Gizmos.DrawSphere(this.簽名範圍.左上.position, 10);
             Gizmos.DrawSphere(this.簽名範圍.右下.position, 10);
 
             //劃出邊界
-            Gizmos.color = Color.red;
+            Gizmos.color = Color.green;
             Gizmos.DrawRay(this.簽名範圍.左上.position, Vector3.right * Mathf.Abs(this.簽名範圍.左上.position.x - this.簽名範圍.右下.position.x));
             Gizmos.DrawRay(this.簽名範圍.右下.position, Vector3.left * Mathf.Abs(this.簽名範圍.左上.position.x - this.簽名範圍.右下.position.x));
             Gizmos.DrawRay(this.簽名範圍.左上.position, Vector3.down * Mathf.Abs(this.簽名範圍.左上.position.y - this.簽名範圍.右下.position.y));
