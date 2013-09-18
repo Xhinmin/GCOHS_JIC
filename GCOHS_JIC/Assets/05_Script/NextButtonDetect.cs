@@ -76,7 +76,11 @@ public class NextButtonDetect : MonoBehaviour
                         //簡/繁體版不同功能
 
                         //簡體版(進入寄信)
-                        GameManager.script.ChangeDrawStage(GameManager.DrawStage.寄信);
+                        if (GameManager.script.語言版本 == GameManager.Language.簡體)
+                            GameManager.script.ChangeDrawStage(GameManager.DrawStage.寄信);
+                        //繁體版(進入簽名)
+                        else if (GameManager.script.語言版本 == GameManager.Language.繁體)
+                            GameManager.script.ChangeDrawStage(GameManager.DrawStage.簽名);
                         break;
                     case GameManager.DrawStage.寄信:
                         SendEmail.script.RunSendEmail();

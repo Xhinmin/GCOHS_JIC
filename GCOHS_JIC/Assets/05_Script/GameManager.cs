@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager script;
 
+    public Language 語言版本;
+
     public GameObject 物件區背景;
     public GameObject 現代郎世寧;
     public GameObject StageHintObject;
@@ -184,5 +186,10 @@ public class GameManager : MonoBehaviour
     public enum DrawStage : int
     {
         等待中 = 0, 開頭動畫 = 1, 構圖 = 2, 明暗 = 3, 設色 = 4, 淡化 = 5, 光源 = 6, 寄信 = 7, 簽名 = 8, 列印 = 9, 結束 = 10
+    }
+
+    public enum Language
+    {
+        簡體 = 0, 繁體 = 1
     }
 }
