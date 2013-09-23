@@ -55,6 +55,7 @@ public class PlayHandBoneAnimation : MonoBehaviour
                 break;
             case AnimationType.太陽引導:
                 this.transform.position = 太陽引導位置;
+                this.transform.eulerAngles = new Vector3(0, 0, 0);
                 boneAnimation.Play(AnimationType.太陽引導.ToString());
 
                 break;

@@ -44,7 +44,7 @@ public class ClickObjectStep5 : MonoBehaviour
             case MouseType.初始播放引導動畫:
                     //播放引導動畫
                     PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.太陽引導;
-                    PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.畫布上方太陽;
+                   // PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.畫布上方太陽;
                 this.currentMouseType = MouseType.無狀態;
                 break;
 

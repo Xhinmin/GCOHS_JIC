@@ -66,113 +66,126 @@ public class MouseRaycast : MonoBehaviour
             }
         }
 
-        if (Physics.Raycast(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition), new Vector3(0, 0, 1), out this.hit, 1000))
+        RaycastHit[] hits = Physics.RaycastAll(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition), new Vector3(0, 0, 1), 1000);
+
+        if (hits.Length > 0)
         {
-            if (hit.transform.gameObject == this.gameObject)
+            foreach (RaycastHit hit in hits)
             {
-                if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse1))
+                if (hit.transform.gameObject == this.gameObject)
                 {
-                    MouseTarget = hit.transform.gameObject;
-
-
-                    if (pictureType == PictureType.潑墨)
+                    if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(KeyCode.Mouse1))
                     {
-                        //引導動畫部分
-                        if (ClickObject.script.HintAnimationisInit)
+                        MouseTarget = hit.transform.gameObject;
+
+
+                        if (pictureType == PictureType.潑墨)
                         {
-
-                            if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗 || GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
-                                PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.指向引導_馬樹類;
-                            if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化)
-                                PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.指向引導_土坡類;
-
-                            //PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.操作閃爍圖片;
-                        }
-
-
-                        if (isBlink)
-                        {
-                            isBlink = false;
-
-                            //將其他潑墨閃爍
-                            if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
+                            //引導動畫部分
+                            if (ClickObject.script.HintAnimationisInit)
                             {
-                                //存下目前要設定的顏色
-                                GameManager.script.設色潑墨顏色 = this.潑墨顏色;
+
+                                if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗 || GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
+                                    PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.指向引導_馬樹類;
+                                if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化)
+                                    PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.指向引導_土坡類;
+
+                                //PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.操作閃爍圖片;
+                            }
+
+
+                            if (isBlink)
+                            {
+                                isBlink = false;
 
                                 //將其他潑墨閃爍
-                                foreach (Transform child in this.transform.parent.parent)
+                                if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
                                 {
-                                    foreach (Transform innerchild in child)
+                                    //存下目前要設定的顏色
+                                    GameManager.script.設色潑墨顏色 = this.潑墨顏色;
+
+                                    //將其他潑墨閃爍
+                                    foreach (Transform child in this.transform.parent.parent)
                                     {
-                                        if (innerchild != this.transform)
-                                            innerchild.gameObject.GetComponent<MouseRaycast>().isBlink = true;
+                                        foreach (Transform innerchild in child)
+                                        {
+                                            if (innerchild != this.transform)
+                                                innerchild.gameObject.GetComponent<MouseRaycast>().isBlink = true;
+                                        }
                                     }
                                 }
-                            }
-                            else
-                            {
-                                foreach (Transform child in this.transform.parent)
+                                else
                                 {
-                                    if (child != this.transform)
-                                        child.gameObject.GetComponent<MouseRaycast>().isBlink = true;
+                                    foreach (Transform child in this.transform.parent)
+                                    {
+                                        if (child != this.transform)
+                                            child.gameObject.GetComponent<MouseRaycast>().isBlink = true;
+                                    }
                                 }
+                                是否可以對操作區的物件上色 = true;
                             }
-                            是否可以對操作區的物件上色 = true;
                         }
-                    }
 
-                    if (pictureType == PictureType.操作區物件)
-                    {
-                        if (是否可以對操作區的物件上色)
+                        if (pictureType == PictureType.操作區物件)
                         {
-                            if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗)
+                            if (是否可以對操作區的物件上色)
                             {
-                                // if(this.GetComponent<Step2>().enabled) 使目前開啟Step2程式的物件才能被潑墨改變顏色 ， 反之點任何物件都會換色
-                                if (this.GetComponent<Step2>().enabled)
+                                if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗)
                                 {
-                                    ClickObject.script.SetPictureStep2(MouseTarget);
-                                    是否可以對操作區的物件上色 = false;
-                                    PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
+                                    // if(this.GetComponent<Step2>().enabled) 使目前開啟Step2程式的物件才能被潑墨改變顏色 ， 反之點任何物件都會換色
+                                    if (this.GetComponent<Step2>().enabled)
+                                    {
+                                        ClickObject.script.SetPictureStep2(MouseTarget);
+                                        是否可以對操作區的物件上色 = false;
+                                        PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
+                                    }
                                 }
-                            }
-                            if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
-                            {
-                                //改變操作區操作物件的圖（Animation）
-
-                                SetColorBoneAnimation.script.pictureType = GameManager.script.設色潑墨顏色;
-                                GameManager.script.設色潑墨顏色 = SetColorBoneAnimation.script.pictureType;
-
-                                //改變實際操作物件的圖（Sprite）
-                                if (this.GetComponent<Step3>().enabled)
+                                if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
                                 {
-                                    ClickObject.script.SetPictureStep3(MouseTarget);
-                                    是否可以對操作區的物件上色 = false;
-                                    PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
+                                    //改變操作區操作物件的圖（Animation）
+
+                                    SetColorBoneAnimation.script.pictureType = GameManager.script.設色潑墨顏色;
+                                    GameManager.script.設色潑墨顏色 = SetColorBoneAnimation.script.pictureType;
+
+                                    //改變實際操作物件的圖（Sprite）
+                                    if (this.GetComponent<Step3>().enabled)
+                                    {
+                                        ClickObject.script.SetPictureStep3(MouseTarget);
+                                        是否可以對操作區的物件上色 = false;
+                                        PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
+                                    }
                                 }
-                            }
-                            if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化)
-                            {
-                                if (this.GetComponent<Step4>().enabled)
+                                if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化)
                                 {
-                                    ClickObject.script.SetPictureStep4();
-                                    是否可以對操作區的物件上色 = false;
-                                    PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
+                                    if (this.GetComponent<Step4>().enabled)
+                                    {
+                                        ClickObject.script.SetPictureStep4();
+                                        是否可以對操作區的物件上色 = false;
+                                        PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
+                                    }
                                 }
+
+
+                                //已經引導過第一次的手指動畫 第二次將消失
+                                ClickObject.script.HintAnimationisInit = false;
+                                //PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
+                                //PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.空動畫;
+
+                                break;
                             }
-
-
-                            //已經引導過第一次的手指動畫 第二次將消失
-                            ClickObject.script.HintAnimationisInit = false;
-                            //PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
-                            //PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.空動畫;
-
                         }
                     }
                 }
-
             }
         }
+        //if (Physics.Raycast(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition), new Vector3(0, 0, 1), out this.hit, 1000))
+        //{
+        //    if (hit.transform.gameObject == this.gameObject)
+        //    {
+               
+
+        //    }
+        //}
     }
 
     void changePictureAlpha(float newValue)

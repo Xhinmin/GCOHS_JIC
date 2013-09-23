@@ -163,7 +163,7 @@ public class State : MonoBehaviour
                     foreach (GameObject gameObject in 影子)
                     {
                         gameObject.SetActive(true);
-                        iTween.ValueTo(光源的控制桿, iTween.Hash("name", "PickObject", "from", 1, "to", 0.2, "time", 0.5, "loopType", "pingPong", "onupdatetarget", this.gameObject, "onupdate", "changePictureAlphaStep5"));
+                        iTween.ValueTo(光源的控制桿, iTween.Hash("name", "PickObject", "from", 0.5, "to", 0, "time", 1, "loopType", "pingPong", "onupdatetarget", this.gameObject, "onupdate", "changePictureAlphaStep5"));
                     }
                 }
                 break;
@@ -187,6 +187,6 @@ public class State : MonoBehaviour
 
     void changePictureAlphaStep5(float newValue)
     {
-        光源的控制桿.gameObject.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0.9f - newValue));
+        光源的控制桿.gameObject.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 1 - newValue));
     }
 }
