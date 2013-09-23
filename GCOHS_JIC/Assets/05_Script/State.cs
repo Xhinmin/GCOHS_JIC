@@ -65,7 +65,7 @@ public class State : MonoBehaviour
                 }
 
                 //每階段動畫引導的初始化
-                PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.空動畫;
+                //PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.空動畫;
                 PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
               
                 break;

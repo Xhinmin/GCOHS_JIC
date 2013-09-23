@@ -38,7 +38,7 @@ public class MouseRaycast : MonoBehaviour
                     if (!GetComponent<iTween>() && this.isBlink)
                     {
                         this.gameObject.GetComponent<SmoothMoves.Sprite>().color = new Color(1, 1, 1, 1);
-                        iTween.ValueTo(this.gameObject, iTween.Hash("from",0.6, "to", 0, "time", 1.0, "loopType", "pingPong", "onupdate", "changePictureAlpha"));
+                        iTween.ValueTo(this.gameObject, iTween.Hash("from", 0.6, "to", 0, "time", 1.0, "loopType", "pingPong", "onupdate", "changePictureAlpha"));
                     }
                     else if (!this.isBlink)
                     {
@@ -54,11 +54,11 @@ public class MouseRaycast : MonoBehaviour
                     if (!GetComponent<iTween>() && 是否可以對操作區的物件上色)
                     {
                         this.gameObject.GetComponent<SmoothMoves.Sprite>().color = new Color(1, 1, 1, 1);
-                        iTween.ValueTo(this.gameObject, iTween.Hash("from", 1, "to", 0.2, "time", 0.5, "loopType", "pingPong", "onupdate", "changePictureAlpha"));
+                        // iTween.ValueTo(this.gameObject, iTween.Hash("from", 1, "to", 0.2, "time", 0.5, "loopType", "pingPong", "onupdate", "changePictureAlpha"));
                     }
                     else if (!是否可以對操作區的物件上色)
                     {
-                        iTween.Stop(this.gameObject);
+                        //iTween.Stop(this.gameObject);
                         this.gameObject.GetComponent<SmoothMoves.Sprite>().color = new Color(1, 1, 1, 1);
                         this.gameObject.GetComponent<SmoothMoves.Sprite>().UpdateArrays();
                     }
@@ -80,8 +80,13 @@ public class MouseRaycast : MonoBehaviour
                         //引導動畫部分
                         if (ClickObject.script.HintAnimationisInit)
                         {
-                            PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.指向引導_操作區物件;
-                            PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.操作閃爍圖片;
+
+                            if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗 || GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
+                                PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.指向引導_馬樹類;
+                            if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化)
+                                PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.指向引導_土坡類;
+
+                            //PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.操作閃爍圖片;
                         }
 
 
@@ -123,8 +128,13 @@ public class MouseRaycast : MonoBehaviour
                         {
                             if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗)
                             {
-                                ClickObject.script.SetPictureStep2(MouseTarget);
-                                是否可以對操作區的物件上色 = false;
+                                // if(this.GetComponent<Step2>().enabled) 使目前開啟Step2程式的物件才能被潑墨改變顏色 ， 反之點任何物件都會換色
+                                if (this.GetComponent<Step2>().enabled)
+                                {
+                                    ClickObject.script.SetPictureStep2(MouseTarget);
+                                    是否可以對操作區的物件上色 = false;
+                                    PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
+                                }
                             }
                             if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
                             {
@@ -134,20 +144,28 @@ public class MouseRaycast : MonoBehaviour
                                 GameManager.script.設色潑墨顏色 = SetColorBoneAnimation.script.pictureType;
 
                                 //改變實際操作物件的圖（Sprite）
-                                ClickObject.script.SetPictureStep3(MouseTarget);
-                                是否可以對操作區的物件上色 = false;
+                                if (this.GetComponent<Step3>().enabled)
+                                {
+                                    ClickObject.script.SetPictureStep3(MouseTarget);
+                                    是否可以對操作區的物件上色 = false;
+                                    PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
+                                }
                             }
                             if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化)
                             {
-                                ClickObject.script.SetPictureStep4();
-                                是否可以對操作區的物件上色 = false;
+                                if (this.GetComponent<Step4>().enabled)
+                                {
+                                    ClickObject.script.SetPictureStep4();
+                                    是否可以對操作區的物件上色 = false;
+                                    PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
+                                }
                             }
 
 
                             //已經引導過第一次的手指動畫 第二次將消失
                             ClickObject.script.HintAnimationisInit = false;
-                            PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
-                            PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.空動畫;
+                            //PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
+                            //PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.空動畫;
 
                         }
                     }

@@ -45,9 +45,11 @@ public class ClickObject : MonoBehaviour
                 if (ClickObject.script.HintAnimationisInit)
                 {
                     //播放引導動畫
-                    if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗 || GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色) PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.指向引導_馬樹類;
-                    if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化)    PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.指向引導_土坡類;                
-                    PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.畫布閃爍圖片;
+                    if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗 || GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色) 
+                        PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.指向引導_馬樹類;
+                    if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化)    
+                        PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.指向引導_土坡類;                
+                    //PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.畫布閃爍圖片;
                 }
 
                 this.currentMouseType = MouseType.無狀態;
@@ -78,7 +80,7 @@ public class ClickObject : MonoBehaviour
                             if (ClickObject.script.HintAnimationisInit)
                             {
                                 PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.指向引導_操作區潑墨;
-                                PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.操作閃爍潑墨;
+                                //PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.操作閃爍潑墨;
                             }
 
                             innerHit = hit;
@@ -86,7 +88,8 @@ public class ClickObject : MonoBehaviour
 
                             //【明暗】與【淡化】部分 鎖定被選定的物件;沒變化前不解鎖
                             if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗 ||
-                                GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化)
+                                GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化 ||
+                                GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
                             {
                                 if (!this.isLock)
                                 {
@@ -96,16 +99,16 @@ public class ClickObject : MonoBehaviour
                                 }
                             }
                             //【設色】部分 不上鎖
-                            else
-                            {
-                                if (Target)
-                                {
-                                    this.Target.GetComponent<PictureInfo>().isBlink = true;
-                                    ClearControlArea(); //清空操作區
-                                    this.Target = innerHit.transform.gameObject; // 給予新的Target
-                                }
+                            //else
+                            //{
+                            //    if (Target)
+                            //    {
+                            //        this.Target.GetComponent<PictureInfo>().isBlink = true;
+                            //        ClearControlArea(); //清空操作區
+                            //        this.Target = innerHit.transform.gameObject; // 給予新的Target
+                            //    }
 
-                            }
+                            //}
 
 
 
@@ -119,12 +122,12 @@ public class ClickObject : MonoBehaviour
                             if (this.Target.GetComponent<Step4>()) this.Target.GetComponent<Step4>().enabled = GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化 ? true : false;
 
                             //在設色階段中　將操作區的改變動畫片段
-                            if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
-                            {
-                                SetColorBoneAnimation.script.pictureType =
-                                    this.Target.GetComponent<Step3>().pictureType;
-                            }
-                            break;
+                            //if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
+                            //{
+                            //    SetColorBoneAnimation.script.pictureType =
+                            //        this.Target.GetComponent<Step3>().pictureType;
+                            //}
+                            //break;
                         }
 
                     }
@@ -143,6 +146,8 @@ public class ClickObject : MonoBehaviour
     /// </summary>
     public void SetPictureStep3(GameObject ChangeObject)
     {
+        isLock = false;
+
         Target.GetComponent<Step3>().pictureType = GameManager.script.設色潑墨顏色;
 
         if (Target.gameObject.name == "馬1")
@@ -195,6 +200,8 @@ public class ClickObject : MonoBehaviour
                 this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.樹2顏色_GUID[2]);
         }
         this.Target.GetComponent<PictureInfo>().isUsed = true;
+
+        ClearControlArea();
     }
 
     /// <summary>
@@ -206,37 +213,39 @@ public class ClickObject : MonoBehaviour
         if (Target.gameObject.name == "馬1")
         {
             this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.馬1_GUID);
-            GameObject.Find("馬1-明").GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.馬1_GUID);
+            //GameObject.Find("馬1-明").GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.馬1_GUID);
             this.Target.GetComponent<PictureInfo>().isUsed = true;
         }
 
         if (Target.gameObject.name == "馬2")
         {
             this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.馬2_GUID);
-            GameObject.Find("馬2-明").GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.馬2_GUID);
+            //GameObject.Find("馬2-明").GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.馬2_GUID);
             this.Target.GetComponent<PictureInfo>().isUsed = true;
         }
 
         if (Target.gameObject.name == "馬3")
         {
             this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.馬3_GUID);
-            GameObject.Find("馬3-明").GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.馬3_GUID);
+            //GameObject.Find("馬3-明").GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.馬3_GUID);
             this.Target.GetComponent<PictureInfo>().isUsed = true;
         }
 
         if (Target.gameObject.name == "樹1")
         {
             this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.樹1_GUID);
-            GameObject.Find("樹1-明").GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.樹1_GUID);
+            //GameObject.Find("樹1-明").GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.樹1_GUID);
             this.Target.GetComponent<PictureInfo>().isUsed = true;
         }
 
         if (Target.gameObject.name == "樹2")
         {
             this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.樹2_GUID);
-            GameObject.Find("樹2-明").GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.樹2_GUID);
+            //GameObject.Find("樹2-明").GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.樹2_GUID);
             this.Target.GetComponent<PictureInfo>().isUsed = true;
         }
+
+        ClearControlArea();
     }
 
 
@@ -249,21 +258,21 @@ public class ClickObject : MonoBehaviour
         if (Target.gameObject.name == "土坡1(物件)")
         {
             this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.土坡1_GUID);
-            GameObject.Find("土坡1-淡化").GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.土坡1_GUID);
+            //GameObject.Find("土坡1-淡化").GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.土坡1_GUID);
             this.Target.GetComponent<PictureInfo>().isUsed = true;
         }
 
         if (Target.gameObject.name == "土坡2(物件)")
         {
             this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.土坡2_GUID);
-            GameObject.Find("土坡2-淡化").GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.土坡2_GUID);
+            //GameObject.Find("土坡2-淡化").GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.土坡2_GUID);
             this.Target.GetComponent<PictureInfo>().isUsed = true;
         }
 
         if (Target.gameObject.name == "土坡3(物件)")
         {
             this.Target.GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.土坡3_GUID);
-            GameObject.Find("土坡3-淡化").GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.土坡3_GUID);
+            //GameObject.Find("土坡3-淡化").GetComponent<SmoothMoves.Sprite>().SetTextureGUID(GameManager.script.土坡3_GUID);
             this.Target.GetComponent<PictureInfo>().isUsed = true;
         }
     }

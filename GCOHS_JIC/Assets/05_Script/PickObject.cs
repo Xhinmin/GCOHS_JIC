@@ -44,7 +44,7 @@ public class PickObject : MonoBehaviour
             case MouseType.初始播放引導動畫:
                 //播放引導動畫
                 PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.拖曳引導;
-                PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.拖曳操作畫布;
+                //PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.拖曳操作畫布;
                 this.currentMouseType = MouseType.無狀態;
                 break;
 
