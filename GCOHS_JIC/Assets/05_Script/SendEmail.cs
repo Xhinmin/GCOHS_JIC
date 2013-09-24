@@ -26,7 +26,7 @@ public class SendEmail : MonoBehaviour
     public void RunSendEmail()
     {
         //Mail 內容設定
-        MailMessage message = new MailMessage(new MailAddress("", "現代郎世寧-百駿圖"), new MailAddress(receiverAddress, ""));//MailMessage(寄信者, 收信者)
+        MailMessage message = new MailMessage(new MailAddress("100horse@mail.goemex.biz", "苏州电博会"), new MailAddress(receiverAddress, ""));//MailMessage(寄信者, 收信者)
 
         message.SubjectEncoding = Encoding.UTF8;    //標題編碼
         message.BodyEncoding = Encoding.UTF8;       //內容編碼
@@ -39,8 +39,8 @@ public class SendEmail : MonoBehaviour
 
         //mail server 內容設定
         SmtpClient smtpClient;
-        smtpClient = new SmtpClient("smtp.gmail.com", 587); //gmail smtp設定 port:587
-        smtpClient.Credentials = (ICredentialsByHost)new NetworkCredential("hahamiror@gmail.com", "hahamiror123");//gmail 帳密
+        smtpClient = new SmtpClient("mail.goemex.biz", 25); //gmail smtp設定 port:587  SMTP: smtp.gmail.com
+        smtpClient.Credentials = (ICredentialsByHost)new NetworkCredential("100horse@mail.goemex.biz", "359359");//gmail 帳密    "hahamiror@gmail.com", "hahamiror123"
         smtpClient.EnableSsl = true;//打開ssl
 
 
