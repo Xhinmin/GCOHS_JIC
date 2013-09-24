@@ -17,10 +17,9 @@ public class ClickObjectStep4 : MonoBehaviour
     //與中心點的距離
     private int dis;
 
-    public float 影子Scale倍率_Min = 1;
-    public float 影子Scale倍率_Max = 2;
-    public float 影子Position位置偏移_Min = -100;
-    public float 影子Position位置偏移_Max = 100;
+    public GameObject 對應土坡圖;
+
+
     // Use this for initialization
     void Start()
     {
@@ -42,9 +41,9 @@ public class ClickObjectStep4 : MonoBehaviour
         switch (this.currentMouseType)
         {
             case MouseType.初始播放引導動畫:
-                    //播放引導動畫
-                    PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.太陽引導;
-                   // PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.畫布上方太陽;
+                //播放引導動畫
+                PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.太陽引導;
+                // PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.畫布上方太陽;
                 this.currentMouseType = MouseType.無狀態;
                 break;
 
@@ -55,9 +54,6 @@ public class ClickObjectStep4 : MonoBehaviour
 
             case MouseType.點擊:
 
-                //通知"下一步"按鈕 可以出現
-                NextButtonController.isCheck4 = true;
-
                 if (Physics.Raycast(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition), new Vector3(0, 0, 1), out hit, 200, this.TargetLayer))
                     this.currentMouseType = MouseType.拖曳中;
                 else
@@ -66,12 +62,14 @@ public class ClickObjectStep4 : MonoBehaviour
 
             case MouseType.拖曳中:
 
+                //拖曳後解鎖
+                ClickObject.script.isLock = false;
+
 
                 if (Physics.Raycast(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition), new Vector3(0, 0, 1), out hit, 200, this.TargetLayer))
                 {
                     //關閉手指動畫
                     PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
-
 
                     //物件拖曳範圍 Min~Max
                     this.hit.transform.position = new Vector3(
@@ -79,26 +77,12 @@ public class ClickObjectStep4 : MonoBehaviour
                        this.hit.transform.position.y,
                        this.hit.transform.position.z);
 
-                    //物件的影子倍率與位置
-                    foreach (GameObject gameObject in State.script.影子)
-                    {
-                        if (gameObject.activeInHierarchy)
-                        {
-                            gameObject.transform.localScale = new Vector3(
-                                Mathf.Lerp(影子Scale倍率_Min, 影子Scale倍率_Max, Mathf.Abs(this.hit.transform.position.x - 物件中心點Center) / dis),
-                                gameObject.transform.localScale.y,
-                                gameObject.transform.localScale.z);
-
-                            gameObject.transform.localPosition = new Vector3(
-                                    Mathf.Lerp(
-                                    影子Position位置偏移_Max,
-                                    影子Position位置偏移_Min,
-                                     (((this.hit.transform.position.x - 物件中心點Center) / dis) + 1) / 2F
-                                    ),
-                                gameObject.transform.localPosition.y,
-                                gameObject.transform.localPosition.z);
-                        }
-                    }
+                    //土坡物件的淡化漸變 ALPHA 0.5 -> 1.0
+                    //最左邊為0.5 最右為1.0 雙倍的與中心點的距離
+                    對應土坡圖.GetComponent<SmoothMoves.Sprite>().color = new Color(1, 1, 1, 0.6F + 0.4F * (float)((this.hit.transform.position.x - 物件位置Min) / (dis * 2)));
+                    對應土坡圖.GetComponent<SmoothMoves.Sprite>().UpdateArrays();
+                    //使狀態更正為已使用 通知下一步按鈕出現
+                    對應土坡圖.GetComponent<PictureInfo>().isUsed = true;
 
                 }
                 if (!Input.GetKey(KeyCode.Mouse0) && !Input.GetKey(KeyCode.Mouse1))

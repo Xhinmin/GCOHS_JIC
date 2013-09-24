@@ -96,7 +96,7 @@ public class State : MonoBehaviour
                                 pi.isUsed = false;
                                 pi.isBlink = true;
                                 if (!pi.GetComponent<iTween>())
-                                    iTween.ValueTo(pi.gameObject, iTween.Hash("name", "PickObject", "from", 1, "to", 0.2, "time", 0.5, "loopType", "pingPong", "onupdatetarget", this.gameObject, "onupdate", "changePictureAlpha"));
+                                    iTween.ValueTo(pi.gameObject, iTween.Hash("name", "PickObject", "from", 0.7, "to", 0, "time", 1, "loopType", "pingPong", "onupdatetarget", this.gameObject, "onupdate", "changePictureAlpha"));
 
                             }
                         }
@@ -122,7 +122,7 @@ public class State : MonoBehaviour
                                 pi.isUsed = false;
                                 pi.isBlink = true;
                                 if (!pi.GetComponent<iTween>())
-                                    iTween.ValueTo(pi.gameObject, iTween.Hash("name", "PickObject", "from", 1, "to", 0.2, "time", 0.5, "loopType", "pingPong", "onupdatetarget", this.gameObject, "onupdate", "changePictureAlpha"));
+                                    iTween.ValueTo(pi.gameObject, iTween.Hash("name", "PickObject", "from", 0.7, "to", 0, "time", 1, "loopType", "pingPong", "onupdatetarget", this.gameObject, "onupdate", "changePictureAlpha"));
 
                             }
                         }
@@ -147,7 +147,7 @@ public class State : MonoBehaviour
                                 pi.isUsed = false;
                                 pi.isBlink = true;
                                 if (!pi.GetComponent<iTween>())
-                                    iTween.ValueTo(pi.gameObject, iTween.Hash("name", "PickObject", "from", 1, "to", 0.2, "time", 0.5, "loopType", "pingPong", "onupdatetarget", this.gameObject, "onupdate", "changePictureAlpha"));
+                                    iTween.ValueTo(pi.gameObject, iTween.Hash("name", "PickObject", "from", 0.7, "to", 0, "time", 1, "loopType", "pingPong", "onupdatetarget", this.gameObject, "onupdate", "changePictureAlpha"));
 
                             }
                         }
@@ -182,7 +182,7 @@ public class State : MonoBehaviour
         {
             if (pi.isBlink)
             {
-                pi.gameObject.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 0.9f - newValue));
+                pi.gameObject.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 1f - newValue));
             }
         }
     }

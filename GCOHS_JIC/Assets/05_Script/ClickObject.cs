@@ -45,10 +45,10 @@ public class ClickObject : MonoBehaviour
                 if (ClickObject.script.HintAnimationisInit)
                 {
                     //播放引導動畫
-                    if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗 || GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色) 
+                    if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗 || GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
                         PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.指向引導_馬樹類;
-                    if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化)    
-                        PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.指向引導_土坡類;                
+                    if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化)
+                        PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.指向引導_土坡類;
                     //PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.畫布閃爍圖片;
                 }
 
@@ -114,7 +114,8 @@ public class ClickObject : MonoBehaviour
 
                             //停止閃爍 並將顏色還原
                             this.Target.GetComponent<PictureInfo>().isBlink = false;
-                            this.Target.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 1));
+
+                                this.Target.GetComponent<SmoothMoves.Sprite>().SetColor(new Color(1, 1, 1, 1));
 
                             //開啟各階段程式
                             if (this.Target.GetComponent<Step2>()) this.Target.GetComponent<Step2>().enabled = GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗 ? true : false;

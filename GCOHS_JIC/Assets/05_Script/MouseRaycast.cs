@@ -51,17 +51,17 @@ public class MouseRaycast : MonoBehaviour
                 // 處理操作區物件的閃爍
                 case MouseRaycast.PictureType.操作區物件:
 
-                    if (!GetComponent<iTween>() && 是否可以對操作區的物件上色)
-                    {
-                        this.gameObject.GetComponent<SmoothMoves.Sprite>().color = new Color(1, 1, 1, 1);
-                        // iTween.ValueTo(this.gameObject, iTween.Hash("from", 1, "to", 0.2, "time", 0.5, "loopType", "pingPong", "onupdate", "changePictureAlpha"));
-                    }
-                    else if (!是否可以對操作區的物件上色)
-                    {
-                        //iTween.Stop(this.gameObject);
-                        this.gameObject.GetComponent<SmoothMoves.Sprite>().color = new Color(1, 1, 1, 1);
-                        this.gameObject.GetComponent<SmoothMoves.Sprite>().UpdateArrays();
-                    }
+                    //if (!GetComponent<iTween>() && 是否可以對操作區的物件上色)
+                    //{
+                    //    this.gameObject.GetComponent<SmoothMoves.Sprite>().color = new Color(1, 1, 1, 1);
+                    //    // iTween.ValueTo(this.gameObject, iTween.Hash("from", 1, "to", 0.2, "time", 0.5, "loopType", "pingPong", "onupdate", "changePictureAlpha"));
+                    //}
+                    //else if (!是否可以對操作區的物件上色)
+                    //{
+                    //    //iTween.Stop(this.gameObject);
+                    //    this.gameObject.GetComponent<SmoothMoves.Sprite>().color = new Color(1, 1, 1, 1);
+                    //    this.gameObject.GetComponent<SmoothMoves.Sprite>().UpdateArrays();
+                    //}
                     break;
             }
         }
@@ -164,6 +164,7 @@ public class MouseRaycast : MonoBehaviour
                                         PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
                                     }
                                 }
+
 
 
                                 //已經引導過第一次的手指動畫 第二次將消失
