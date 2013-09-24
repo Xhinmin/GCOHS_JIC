@@ -47,7 +47,10 @@ public class State : MonoBehaviour
                 {
                     if (!pi.isUsed) pi.gameObject.SetActive(false);
                     pi.isBlink = false;
-                    pi.gameObject.GetComponent<SmoothMoves.Sprite>().color = new Color(1, 1, 1, 1);
+
+                    //解決淡化轉場時 土坡不回到原本顏色
+                    if(pi.Type != PictureInfo.PictureType.土坡)
+                        pi.gameObject.GetComponent<SmoothMoves.Sprite>().color = new Color(1, 1, 1, 1);
                     pi.GetComponent<SmoothMoves.Sprite>().UpdateArrays();
                 }
                 第一階段構圖操控.SetActive(false);
