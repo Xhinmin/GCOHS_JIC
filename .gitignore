@@ -1,6 +1,7 @@
 #Unity
 Library
 Temp
+PictureResult
 *.sln
 *.csproj
 *.unityproj
@@ -10,4 +11,3 @@ Temp
 obj
 *.csproj
 *.sln
-ScreenCapture.png

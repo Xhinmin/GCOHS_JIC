@@ -169,7 +169,6 @@ public class State : MonoBehaviour
                 break;
 
             case GameManager.DrawStage.寄信:
-                PlayHintBoneAnimation.script.animationType = PlayHintBoneAnimation.AnimationType.空動畫;
                 break;
         }
     }
