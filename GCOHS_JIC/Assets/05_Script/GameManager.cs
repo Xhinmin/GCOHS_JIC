@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject 物件區背景;
     public GameObject 現代郎世寧;
+    public GameObject 截圖使用物件;
     public GameObject StageHintObject;
     private GameObject currentStageHintObject;
     public GameObject TitleShowObject;
@@ -68,6 +69,7 @@ public class GameManager : MonoBehaviour
         //遊戲開始，首先進入開頭動畫
         this.ChangeDrawStage(DrawStage.開頭動畫);
         this.現代郎世寧.SetActive(false);        //將左上"現代郎世寧"暫時關閉
+        this.截圖使用物件.SetActive(false);
     }
 
     /// <summary>
@@ -87,6 +89,8 @@ public class GameManager : MonoBehaviour
         if (nextStage == DrawStage.寄信)
         {
             this.CurrentDrawStage = DrawStage.等待中;
+            this.現代郎世寧.SetActive(false);            //將左上"現代郎世寧"關閉
+            this.截圖使用物件.SetActive(true);        //開啟"截圖使用物件"
             State.script.光源的控制桿.SetActive(false);
             ScreenShot.script.RunScreenCapture();
             return;
