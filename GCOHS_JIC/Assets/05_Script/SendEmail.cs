@@ -41,13 +41,13 @@ public class SendEmail : MonoBehaviour
         SmtpClient smtpClient;
         smtpClient = new SmtpClient("mail.goemex.biz", 25); //gmail smtp設定 port:587  SMTP: smtp.gmail.com
         smtpClient.Credentials = (ICredentialsByHost)new NetworkCredential("100horse@mail.goemex.biz", "359359");//gmail 帳密    "hahamiror@gmail.com", "hahamiror123"
-        smtpClient.EnableSsl = true;//打開ssl
+        //smtpClient.EnableSsl = false;//打開ssl
 
 
         //設定安全機制(必須設定否則無法發送)
-        ServicePointManager.ServerCertificateValidationCallback =
-                delegate(object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
-                { return true; };
+        //ServicePointManager.ServerCertificateValidationCallback =
+        //        delegate(object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        //        { return true; };
 
         //完成寄信後的callback function
         smtpClient.SendCompleted += this.smtp_SendCompleted;
