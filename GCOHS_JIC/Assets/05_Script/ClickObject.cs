@@ -120,6 +120,7 @@ public class ClickObject : MonoBehaviour
                             if (this.Target.GetComponent<Step2>()) this.Target.GetComponent<Step2>().enabled = GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗 ? true : false;
                             if (this.Target.GetComponent<Step3>()) this.Target.GetComponent<Step3>().enabled = GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色 ? true : false;
                             if (this.Target.GetComponent<Step4>()) this.Target.GetComponent<Step4>().enabled = GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化 ? true : false;
+                            if (this.Target.GetComponent<Step4_V2>()) this.Target.GetComponent<Step4_V2>().enabled = GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化 ? true : false;
 
                             //在設色階段中　將操作區的改變動畫片段
                             //if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
@@ -289,6 +290,7 @@ public class ClickObject : MonoBehaviour
             if (this.Target.GetComponent<Step2>()) this.Target.GetComponent<Step2>().enabled = false;
             if (this.Target.GetComponent<Step3>()) this.Target.GetComponent<Step3>().enabled = false;
             if (this.Target.GetComponent<Step4>()) this.Target.GetComponent<Step4>().enabled = false;
+            if (this.Target.GetComponent<Step4_V2>()) this.Target.GetComponent<Step4_V2>().enabled = false;
         }
     }
 

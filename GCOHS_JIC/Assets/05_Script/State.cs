@@ -24,7 +24,8 @@ public class State : MonoBehaviour
     public GameObject 第五階段光源操作區;
     public GameObject 操控區背景;
     public GameObject 第一階段構圖操控;
-    public GameObject 第二三四階段明暗設色淡化操控;
+    public GameObject 第二三階段明暗設色操控;
+    public GameObject 第四階段淡化操控;
     public GameObject 第五階段光源操控;
 
     private Transform[] brinkGameObjects;
@@ -50,7 +51,9 @@ public class State : MonoBehaviour
                     pi.GetComponent<SmoothMoves.Sprite>().UpdateArrays();
                 }
                 第一階段構圖操控.SetActive(false);
-                第二三四階段明暗設色淡化操控.SetActive(false);
+                第二三階段明暗設色操控.SetActive(false);
+                第四階段淡化操控.SetActive(false);
+                第五階段光源操控.SetActive(false);
 
                 第二階段明暗操作區.SetActive(false);
                 第三階段設色操作區.SetActive(false);
@@ -80,7 +83,7 @@ public class State : MonoBehaviour
                 if (!明暗初始化)
                 {
                     明暗初始化 = true;
-                    第二三四階段明暗設色淡化操控.SetActive(true);
+                    第二三階段明暗設色操控.SetActive(true);
                     第二階段明暗操作區.SetActive(true);
                     //將馬跟樹閃爍
                     foreach (var pi in 圖案物件.GetComponentsInChildren<PictureInfo>())
@@ -106,7 +109,7 @@ public class State : MonoBehaviour
                 if (!設色初始化)
                 {
                     設色初始化 = true;
-                    第二三四階段明暗設色淡化操控.SetActive(true);
+                    第二三階段明暗設色操控.SetActive(true);
                     第三階段設色操作區.SetActive(true);
                     //將馬跟樹閃爍
                     foreach (var pi in 圖案物件.GetComponentsInChildren<PictureInfo>())
@@ -132,7 +135,7 @@ public class State : MonoBehaviour
                 {
                     淡化初始化 = true;
                     ClickObject.script.isLock = false;
-                    第二三四階段明暗設色淡化操控.SetActive(true);
+                    第四階段淡化操控.SetActive(true);
                     第四階段淡化操作區.SetActive(true);
                     //將土坡閃爍
                     foreach (var pi in 圖案物件.GetComponentsInChildren<PictureInfo>())
