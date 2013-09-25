@@ -55,6 +55,7 @@ public class DrawLines : MonoBehaviour
     public void FinishDrawLine()
     {
         this.canDraw = false;
+        GameManager.script.CurrentDrawStage = GameManager.DrawStage.等待中;
         this.簽名提示範圍.SetActive(false);
         this.transform.parent.localScale = Vector3.one * this.FinishScale;
         this.transform.parent.position += new Vector3(this.FinishOffset.x, this.FinishOffset.y, this.transform.parent.position.z);

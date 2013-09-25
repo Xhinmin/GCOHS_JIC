@@ -7,11 +7,6 @@ public class NextButtonController : MonoBehaviour
     public GameObject LeftButtonObject;
     public static bool isCheck4 = false;
 
-    void Start()
-    {
-        this.LeftButtonObject.SetActive(false);
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -20,6 +15,7 @@ public class NextButtonController : MonoBehaviour
             case GameManager.DrawStage.等待中:
             case GameManager.DrawStage.開頭動畫:
                 this.RightButtonObject.SetActive(false);
+                this.LeftButtonObject.SetActive(false);
                 break;
 
             case GameManager.DrawStage.構圖:

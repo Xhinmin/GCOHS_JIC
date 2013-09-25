@@ -107,21 +107,17 @@ public class NextButtonDetect : MonoBehaviour
                         break;
                     case GameManager.DrawStage.簽名:
                         if (LayerMask.NameToLayer("RightButton") == this.gameObject.layer)
-                        {
-                            print("FinishDrawLine >>>" + this.gameObject.name);
                             DrawLines.script.FinishDrawLine();
-                        }
                         else if (LayerMask.NameToLayer("LeftButton") == this.gameObject.layer)
-                        {
-                            print("ClearAllLine >>>" + this.gameObject.name);
                             DrawLines.script.ClearAllLine();
-                        }
                         break;
                     case GameManager.DrawStage.列印:
-                        //if (this.Buttonposition == ButtonPosition.Right)
+                        if (LayerMask.NameToLayer("RightButton") == this.gameObject.layer)
+                            UnityPrinter.script.Print(true);
+                        else if (LayerMask.NameToLayer("LeftButton") == this.gameObject.layer)
+                            UnityPrinter.script.Print(false);
 
-                        //else if (this.Buttonposition == ButtonPosition.Left)
-
+                        GameManager.script.ChangeDrawStage(GameManager.DrawStage.結束);
                         break;
                 }
             }

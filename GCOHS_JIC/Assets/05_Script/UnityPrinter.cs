@@ -20,15 +20,26 @@ public class UnityPrinter : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.P))
-            Print();
+            Print(true);
     }
 
-    void Print()
+    public void Print(bool isRunPrint)
     {
-        //從WWW取得圖片(LOCAL)
-        StartCoroutine(GetTextureFromWWW());
-        //執行列印
-        StartCoroutine(PrintProcess());
+        if (isRunPrint)
+        {
+            //從WWW取得圖片(LOCAL)
+            StartCoroutine(GetTextureFromWWW());
+            //執行列印
+            StartCoroutine(PrintProcess());
+        }
+
+        StartCoroutine(ReLoadScene(5.0f));
+    }
+
+    IEnumerator ReLoadScene(float time)
+    {
+        yield return new WaitForSeconds(time);
+        Application.LoadLevelAsync(Application.loadedLevelName);
     }
 
     IEnumerator GetTextureFromWWW()
