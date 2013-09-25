@@ -7,6 +7,7 @@ using System.Collections;
 public class NextButtonDetect : MonoBehaviour
 {
     public LayerMask TargetLayer;
+
     private SmoothMoves.BoneAnimation boneAnimation;
 
     void Start()
@@ -26,22 +27,40 @@ public class NextButtonDetect : MonoBehaviour
 
 
             case GameManager.DrawStage.構圖:
-                this.boneAnimation.Play("下一步");
+                if (LayerMask.NameToLayer("RightButton") == this.gameObject.layer)
+                    this.boneAnimation.Play("下一步");
                 break;
             case GameManager.DrawStage.明暗:
-                this.boneAnimation.Play("下一步");
+                if (LayerMask.NameToLayer("RightButton") == this.gameObject.layer)
+                    this.boneAnimation.Play("下一步");
                 break;
             case GameManager.DrawStage.設色:
-                this.boneAnimation.Play("下一步");
+                if (LayerMask.NameToLayer("RightButton") == this.gameObject.layer)
+                    this.boneAnimation.Play("下一步");
                 break;
             case GameManager.DrawStage.淡化:
-                this.boneAnimation.Play("下一步");
+                if (LayerMask.NameToLayer("RightButton") == this.gameObject.layer)
+                    this.boneAnimation.Play("下一步");
                 break;
             case GameManager.DrawStage.光源:
-                this.boneAnimation.Play("下一步");
+                if (LayerMask.NameToLayer("RightButton") == this.gameObject.layer)
+                    this.boneAnimation.Play("下一步");
                 break;
             case GameManager.DrawStage.寄信:
-                this.boneAnimation.Play("寄出");
+                if (LayerMask.NameToLayer("RightButton") == this.gameObject.layer)
+                    this.boneAnimation.Play("寄出");
+                break;
+            case GameManager.DrawStage.簽名:
+                if (LayerMask.NameToLayer("RightButton") == this.gameObject.layer)
+                    this.boneAnimation.Play("完成簽名");
+                else if (LayerMask.NameToLayer("LeftButton") == this.gameObject.layer)
+                    this.boneAnimation.Play("清空畫布");
+                break;
+            case GameManager.DrawStage.列印:
+                if (LayerMask.NameToLayer("RightButton") == this.gameObject.layer)
+                    this.boneAnimation.Play("列印");
+                else if (LayerMask.NameToLayer("LeftButton") == this.gameObject.layer)
+                    this.boneAnimation.Play("不列印");
                 break;
         }
 
@@ -87,8 +106,22 @@ public class NextButtonDetect : MonoBehaviour
                         GameManager.script.ChangeDrawStage(GameManager.DrawStage.結束);
                         break;
                     case GameManager.DrawStage.簽名:
+                        if (LayerMask.NameToLayer("RightButton") == this.gameObject.layer)
+                        {
+                            print("FinishDrawLine >>>" + this.gameObject.name);
+                            DrawLines.script.FinishDrawLine();
+                        }
+                        else if (LayerMask.NameToLayer("LeftButton") == this.gameObject.layer)
+                        {
+                            print("ClearAllLine >>>" + this.gameObject.name);
+                            DrawLines.script.ClearAllLine();
+                        }
                         break;
                     case GameManager.DrawStage.列印:
+                        //if (this.Buttonposition == ButtonPosition.Right)
+
+                        //else if (this.Buttonposition == ButtonPosition.Left)
+
                         break;
                 }
             }

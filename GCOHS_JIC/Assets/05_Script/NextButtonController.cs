@@ -3,12 +3,13 @@ using System.Collections;
 
 public class NextButtonController : MonoBehaviour
 {
-    private GameObject NextButtonObject;
+    public GameObject RightButtonObject;
+    public GameObject LeftButtonObject;
     public static bool isCheck4 = false;
-    // Use this for initialization
+
     void Start()
     {
-        this.NextButtonObject = this.transform.GetChild(0).gameObject;
+        this.LeftButtonObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -17,8 +18,8 @@ public class NextButtonController : MonoBehaviour
         switch (GameManager.script.CurrentDrawStage)
         {
             case GameManager.DrawStage.等待中:
-            case GameManager.DrawStage.開頭動畫: 
-            this.NextButtonObject.SetActive(false);
+            case GameManager.DrawStage.開頭動畫:
+                this.RightButtonObject.SetActive(false);
                 break;
 
             case GameManager.DrawStage.構圖:
@@ -45,10 +46,10 @@ public class NextButtonController : MonoBehaviour
                 }
 
                 if (使用馬數量 >= 1 & 使用樹數量 >= 1 & 使用土坡數量 == 3)
-                    this.NextButtonObject.SetActive(true);
+                    this.RightButtonObject.SetActive(true);
 
                 else
-                    this.NextButtonObject.SetActive(false);
+                    this.RightButtonObject.SetActive(false);
                 break;
 
             case GameManager.DrawStage.明暗:
@@ -64,7 +65,7 @@ public class NextButtonController : MonoBehaviour
                         }
                     }
                 }
-                this.NextButtonObject.SetActive(isCheck1);
+                this.RightButtonObject.SetActive(isCheck1);
 
                 break;
 
@@ -81,7 +82,7 @@ public class NextButtonController : MonoBehaviour
                         }
                     }
                 }
-                this.NextButtonObject.SetActive(isCheck2);
+                this.RightButtonObject.SetActive(isCheck2);
                 break;
 
             case GameManager.DrawStage.淡化:
@@ -97,15 +98,25 @@ public class NextButtonController : MonoBehaviour
                         }
                     }
                 }
-                this.NextButtonObject.SetActive(isCheck3);
+                this.RightButtonObject.SetActive(isCheck3);
                 break;
 
             case GameManager.DrawStage.光源:
-                this.NextButtonObject.SetActive(isCheck4);
+                this.RightButtonObject.SetActive(isCheck4);
                 break;
 
             case GameManager.DrawStage.寄信:
-                this.NextButtonObject.SetActive(true);
+                this.RightButtonObject.SetActive(true);
+                break;
+
+            case GameManager.DrawStage.簽名:
+                this.RightButtonObject.SetActive(true);
+                this.LeftButtonObject.SetActive(true);
+                break;
+
+            case GameManager.DrawStage.列印:
+                this.RightButtonObject.SetActive(true);
+                this.LeftButtonObject.SetActive(true);
                 break;
         }
 

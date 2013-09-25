@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 
     public Language 語言版本;
 
+    public GameObject 簽名物件;
     public GameObject 物件區背景;
     public GameObject 現代郎世寧;
     public GameObject 截圖使用物件;
@@ -70,6 +71,7 @@ public class GameManager : MonoBehaviour
         this.ChangeDrawStage(DrawStage.開頭動畫);
         this.現代郎世寧.SetActive(false);        //將左上"現代郎世寧"暫時關閉
         this.截圖使用物件.SetActive(false);
+        this.簽名物件.SetActive(false);
     }
 
     /// <summary>
@@ -93,6 +95,15 @@ public class GameManager : MonoBehaviour
             this.截圖使用物件.SetActive(true);        //開啟"截圖使用物件"
             State.script.光源的控制桿.SetActive(false);
             ScreenShot.script.RunScreenCapture();
+            return;
+        }
+        else if (nextStage == DrawStage.簽名)
+        {
+            this.CurrentDrawStage = DrawStage.簽名;
+            this.現代郎世寧.SetActive(false);            //將左上"現代郎世寧"關閉
+            this.截圖使用物件.SetActive(true);        //開啟"截圖使用物件"
+            State.script.光源的控制桿.SetActive(false);
+            this.簽名物件.SetActive(true);
             return;
         }
 

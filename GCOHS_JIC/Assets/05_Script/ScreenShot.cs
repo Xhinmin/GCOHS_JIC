@@ -76,7 +76,14 @@ public class ScreenShot : MonoBehaviour
         while (!File.Exists(this.imagePath))
             yield return null;
 
-        SendEmail.script.UIEnable = true;
-        GameManager.script.CurrentDrawStage = GameManager.DrawStage.寄信;
+        if (GameManager.script.語言版本 == GameManager.Language.簡體)
+        {
+            SendEmail.script.UIEnable = true;
+            GameManager.script.CurrentDrawStage = GameManager.DrawStage.寄信;
+        }
+        else if (GameManager.script.語言版本 == GameManager.Language.繁體)
+        {
+            GameManager.script.CurrentDrawStage = GameManager.DrawStage.列印;
+        }
     }
 }
