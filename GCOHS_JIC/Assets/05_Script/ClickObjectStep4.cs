@@ -79,7 +79,7 @@ public class ClickObjectStep4 : MonoBehaviour
 
                     //土坡物件的淡化漸變 ALPHA 0.5 -> 1.0
                     //最左邊為0.5 最右為1.0 雙倍的與中心點的距離
-                    對應土坡圖.GetComponent<SmoothMoves.Sprite>().color = new Color(1, 1, 1, 0.6F + 0.4F * (float)((this.hit.transform.position.x - 物件位置Min) / (dis * 2)));
+                    對應土坡圖.GetComponent<SmoothMoves.Sprite>().color = new Color(1, 1, 1, 0.7F + 0.3F * (float)((this.hit.transform.position.x - 物件位置Min) / (dis * 2)));
                     對應土坡圖.GetComponent<SmoothMoves.Sprite>().UpdateArrays();
                     //使狀態更正為已使用 通知下一步按鈕出現
                     對應土坡圖.GetComponent<PictureInfo>().isUsed = true;
