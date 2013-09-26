@@ -133,11 +133,14 @@ public class MouseRaycast : MonoBehaviour
                                 if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.明暗)
                                 {
                                     // if(this.GetComponent<Step2>().enabled) 使目前開啟Step2程式的物件才能被潑墨改變顏色 ， 反之點任何物件都會換色
-                                    if (this.GetComponent<Step2>().enabled)
+                                    if (this.GetComponent<Step2>())
                                     {
-                                        ClickObject.script.SetPictureStep2(MouseTarget);
-                                        是否可以對操作區的物件上色 = false;
-                                        PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
+                                        if (this.GetComponent<Step2>().enabled)
+                                        {
+                                            ClickObject.script.SetPictureStep2(MouseTarget);
+                                            是否可以對操作區的物件上色 = false;
+                                            PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
+                                        }
                                     }
                                 }
                                 if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.設色)
@@ -148,11 +151,14 @@ public class MouseRaycast : MonoBehaviour
                                     GameManager.script.設色潑墨顏色 = SetColorBoneAnimation.script.pictureType;
 
                                     //改變實際操作物件的圖（Sprite）
-                                    if (this.GetComponent<Step3>().enabled)
+                                    if (this.GetComponent<Step3>())
                                     {
-                                        ClickObject.script.SetPictureStep3(MouseTarget);
-                                        是否可以對操作區的物件上色 = false;
-                                        PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
+                                        if (this.GetComponent<Step3>().enabled)
+                                        {
+                                            ClickObject.script.SetPictureStep3(MouseTarget);
+                                            是否可以對操作區的物件上色 = false;
+                                            PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
+                                        }
                                     }
                                 }
                                 if (GameManager.script.CurrentDrawStage == GameManager.DrawStage.淡化)
@@ -183,7 +189,7 @@ public class MouseRaycast : MonoBehaviour
         //{
         //    if (hit.transform.gameObject == this.gameObject)
         //    {
-               
+
 
         //    }
         //}
