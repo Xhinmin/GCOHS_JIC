@@ -31,8 +31,22 @@ public class SendEmail : MonoBehaviour
         message.SubjectEncoding = Encoding.UTF8;    //標題編碼
         message.BodyEncoding = Encoding.UTF8;       //內容編碼
 
-        message.Subject = "現代郎世寧-百駿圖";           //E-mail主旨
-        message.Body = "感謝使用現代郎世寧-百駿圖，附件為您設計的百駿圖";                  //E-mail內容
+
+        switch (GameManager.script.語言版本)
+        {
+            case GameManager.Language.簡體:
+                message.Subject = "现代郎世宁-百骏图";           //E-mail主旨
+                message.Body = "感谢使用现代郎世宁-百骏图，附件为您设计的百骏图";                  //E-mail內容
+                break;
+            case GameManager.Language.繁體:
+                message.Subject = "現代郎世寧-百駿圖";           //E-mail主旨
+                message.Body = "感謝使用現代郎世寧-百駿圖，附件為您設計的百駿圖";                  //E-mail內容
+                break;
+            default:
+                break;
+        }
+
+
 
         Attachment attachment = new Attachment(ScreenShot.script.imagePath);//<-這是附件部分~先用附件的物件把路徑指定進去~
         message.Attachments.Add(attachment);//<-郵件訊息中加入附件
