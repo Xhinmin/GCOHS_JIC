@@ -35,23 +35,34 @@ public class PlayHandBoneAnimation : MonoBehaviour
                 break;
             case AnimationType.指向引導_操作區潑墨:
                 this.transform.position = 指向引導位置_操作區潑墨;
-                this.transform.eulerAngles = new Vector3(0, 0, 0);
-                boneAnimation.Play("指向引導");
+                //this.transform.eulerAngles = new Vector3(0, 0, 0);
+                boneAnimation.Play("指向引導2");
                 break;
             case AnimationType.指向引導_操作區物件:
                 this.transform.position = 指向引導位置_操作區物件;
-                this.transform.eulerAngles = new Vector3(0, 0, 0);
+                //this.transform.eulerAngles = new Vector3(0, 0, 0);
                 boneAnimation.Play("指向引導");
                 break;
-            case AnimationType.指向引導_土坡類:
+
+            case AnimationType.指向引導_畫布區物件:
+                this.transform.position = 指向引導位置_馬樹類;
+                //this.transform.eulerAngles = new Vector3(0, 0, 0);
+                boneAnimation.Play("指向引導3");
+                break;
+            case AnimationType.指向引導_光源土坡類:
                 this.transform.position = 指向引導位置_土坡類;
                 this.transform.eulerAngles = new Vector3(0, 0, 90);
                 boneAnimation.Play("指向引導");
                 break;
+            case AnimationType.指向引導_光源操作區潑墨:
+                this.transform.position = 指向引導位置_操作區潑墨;
+                this.transform.eulerAngles = new Vector3(0, 0, 0);
+                boneAnimation.Play("指向引導");
+                break;
             case AnimationType.指向引導_馬樹類:
                 this.transform.position = 指向引導位置_馬樹類;
-                this.transform.eulerAngles = new Vector3(0, 0, 90);
-                boneAnimation.Play("指向引導");
+                //this.transform.eulerAngles = new Vector3(0, 0, 90);
+                boneAnimation.Play("指向引導1");
                 break;
             case AnimationType.太陽引導:
                 this.transform.position = 太陽引導位置;
@@ -73,10 +84,13 @@ public class PlayHandBoneAnimation : MonoBehaviour
         拖曳引導 = 0,
         指向引導_操作區潑墨 = 1,
         指向引導_操作區物件 = 2,
-        指向引導_土坡類 = 3,
+        指向引導_光源土坡類 = 3,
         指向引導_馬樹類= 4,
         太陽引導 = 5,
 
-        空動畫 = 6
+        空動畫 = 6,
+        指向引導_畫布區物件 = 7,
+        指向引導_光源操作區潑墨 = 8
+
     }
 }
