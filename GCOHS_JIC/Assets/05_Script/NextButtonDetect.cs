@@ -117,6 +117,8 @@ public class NextButtonDetect : MonoBehaviour
                         else if (LayerMask.NameToLayer("LeftButton") == this.gameObject.layer)
                             UnityPrinter.script.Print(false);
 
+                        if (GameManager.script.CanonLogo != null)
+                            GameManager.script.CanonLogo.SetActive(false);
                         GameManager.script.ChangeDrawStage(GameManager.DrawStage.結束);
                         break;
                 }
