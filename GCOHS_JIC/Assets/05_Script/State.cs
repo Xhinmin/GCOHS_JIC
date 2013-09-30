@@ -53,6 +53,7 @@ public class State : MonoBehaviour
                         pi.gameObject.GetComponent<SmoothMoves.Sprite>().color = new Color(1, 1, 1, 1);
                     pi.GetComponent<SmoothMoves.Sprite>().UpdateArrays();
                 }
+                NextButtonController.isCheck4 = false;
                 第一階段構圖操控.SetActive(false);
                 第二三階段明暗設色操控.SetActive(false);
                 第四階段淡化操控.SetActive(false);
