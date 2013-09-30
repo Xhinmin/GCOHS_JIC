@@ -55,8 +55,7 @@ public class ClickObjectStep5 : MonoBehaviour
 
             case MouseType.點擊:
 
-                //通知"下一步"按鈕 可以出現
-                NextButtonController.isCheck4 = true;
+             
 
                 if (Physics.Raycast(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition), new Vector3(0, 0, 1), out hit, 200, this.TargetLayer))
                     this.currentMouseType = MouseType.拖曳中;
@@ -69,6 +68,8 @@ public class ClickObjectStep5 : MonoBehaviour
 
                 if (Physics.Raycast(this.ViewCamera.ScreenToWorldPoint(Input.mousePosition), new Vector3(0, 0, 1), out hit, 200, this.TargetLayer))
                 {
+                    //通知"下一步"按鈕 可以出現
+                    NextButtonController.isCheck4 = true;
                     //關閉手指動畫
                     PlayHandBoneAnimation.script.animationType = PlayHandBoneAnimation.AnimationType.空動畫;
 
